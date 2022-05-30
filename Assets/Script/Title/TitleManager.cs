@@ -35,7 +35,7 @@ public class TitleManager : MonoBehaviour
  
     private void MoveTitleName()
     {
-        TitleNameObj.transform.position = new Vector3(0,3 + Mathf.Sin(Time.time * 0.5f) * 0.5f, 0);
+        TitleNameObj.transform.position = new Vector3(0, 1.5f + Mathf.Sin(Time.time * 0.5f) * 1, 0);
     }
     #region 타이틀 버튼 관련 함수
     private void GameStart()
