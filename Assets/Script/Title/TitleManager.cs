@@ -53,7 +53,7 @@ public class TitleManager : MonoBehaviour
         if(IsSettingUp == false)
         {
             Debug.Log("세팅을 왜함? ㄹㅇ ㅋㅋ");
-            GameSettingPopUp.transform.DOScale(1, 0.6f).SetEase(Ease.InOutQuad);
+            GameSettingPopUp.transform.DOMove(new Vector3(1200,540,0), 1.2f).SetEase(Ease.InOutBack);
             IsSettingUp = true;
         }
     }
@@ -62,7 +62,7 @@ public class TitleManager : MonoBehaviour
         if(IsSettingUp == true)
         {
             Debug.Log("게임 세팅 화면 종료");
-            GameSettingPopUp.transform.DOScale(0, 0.6f).SetEase(Ease.InOutQuad);
+            GameSettingPopUp.transform.DOMove(new Vector3(2820, 540, 0), 1.2f).SetEase(Ease.InOutBack);
             IsSettingUp = false;
         }
     }
