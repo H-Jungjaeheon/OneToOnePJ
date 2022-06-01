@@ -876,8 +876,8 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
-    m_FontStyle: 0
+    m_FontSize: 50
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 50
@@ -887,7 +887,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uAC8C\uC784 \uC885\uB8CC \uBC84\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\uD2BC"
+  m_Text: "\uAC8C\uC784 \uC885\uB8CC"
 --- !u!222 &350432396
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1049,11 +1049,14 @@ MonoBehaviour:
   TitleNameObj: {fileID: 1000271745}
   GameSettingPopUp: {fileID: 1193380919}
   GameStartPanelObj: {fileID: 1000237416}
+  GameExitPanelObj: {fileID: 1344459934}
   GameStartPanel: {fileID: 1442493295}
   GameStartButton: {fileID: 271273167}
-  GameExitButton: {fileID: 639517605}
+  GameExitPanelOnButton: {fileID: 639517605}
+  GameExitPanelOffButton: {fileID: 400131625}
   GameSettingButton: {fileID: 105040066}
   GameSettingExitButton: {fileID: 1011886048}
+  GameExitButton: {fileID: 189379623}
   IsSettingUp: 0
   IsStarting: 0
 --- !u!4 &632309777
@@ -1250,18 +1253,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
-    m_FontStyle: 0
+    m_FontSize: 50
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 50
+    m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uAC8C\uC784 \uC2DC\uC791 \uBC84\uC5B4\uD230"
+  m_Text: "\uAC8C\uC784 \uC2DC\uC791"
 --- !u!222 &643760213
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1329,8 +1332,8 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
-    m_FontStyle: 0
+    m_FontSize: 50
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 50
@@ -1340,7 +1343,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uAC8C\uC784 \uC124\uBA85 \uBC84\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\u3153\uD2BC"
+  m_Text: "\uAC8C\uC784 \uC124\uC815"
 --- !u!222 &976755642
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1794,7 +1797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1344459935
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2043,7 +2046,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB124"
+  m_Text: "\uC608"
 --- !u!222 &1473245750
 CanvasRenderer:
   m_ObjectHideFlags: 0

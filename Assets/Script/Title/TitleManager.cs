@@ -9,13 +9,13 @@ public class TitleManager : MonoBehaviour
 {
     #region 시작 화면 UI 모음
     [Header("시작 화면 UI 모음")]
-    [SerializeField] private GameObject TitleNameObj;
-    [SerializeField] private GameObject GameSettingPopUp, GameStartPanelObj;
-    [SerializeField] private Image GameStartPanel;
+    [SerializeField] private GameObject TitleNameObj; //게임 제목 오브젝트
+    [SerializeField] private GameObject GameSettingPopUp, GameStartPanelObj, GameExitPanelObj; //설정 창 오브젝트, 게임 시작 화면 연출 오브젝트, 게임 종료 창 오브젝트
+    [SerializeField] private Image GameStartPanel; //게임 시작 페이드 연출 이미지
     [Header("타이틀 버튼 오브젝트")]
-    [SerializeField] private Button GameStartButton;
-    [SerializeField] private Button GameExitButton, GameSettingButton, GameSettingExitButton;
-    [SerializeField] private bool IsSettingUp, IsStarting;
+    [SerializeField] private Button GameStartButton; //게임 시작 버튼
+    [SerializeField] private Button GameExitPanelOnButton, GameExitPanelOffButton, GameSettingButton, GameSettingExitButton, GameExitButton; //게임 종료 팝업 버튼, 게임 종료 취소 버튼, 설정 창 팝업 버튼, 설정 창 종료 버튼, 게임 종료 버튼
+    [SerializeField] private bool IsSettingUp, IsStarting; //설정 판별, 게임 시작 판별
     private Vector3 pos;
     #endregion
 
@@ -39,15 +39,16 @@ public class TitleManager : MonoBehaviour
         IsSettingUp = false;
         IsStarting = false;
         GameStartPanelObj.SetActive(false);
-        GameStartButton.onClick.AddListener(GameStart);
+        GameExitPanelObj.SetActive(false);
+        GameStartButton.onClick.AddListener(() => StartCoroutine(GameStartCoroutine(1f)));
         GameSettingButton.onClick.AddListener(GameSetting);
-        GameExitButton.onClick.AddListener(GameExit);
+        GameExitPanelOnButton.onClick.AddListener(()=> GameExitPanelObj.SetActive(true));
+        GameExitPanelOffButton.onClick.AddListener(() => GameExitPanelObj.SetActive(false));
         GameSettingExitButton.onClick.AddListener(GameSettingClose);
+        GameExitButton.onClick.AddListener(() => Application.Quit());
     }
     private void MoveTitleName() => TitleNameObj.transform.position = new Vector3(0, 1.5f + Mathf.Sin(Time.time * 0.5f) * 1, 0);
     #region 타이틀 버튼 관련 함수
-
-    private void GameStart() => StartCoroutine(GameStartCoroutine(1f));
 
     private IEnumerator GameStartCoroutine(float duration)
     {
@@ -66,16 +67,15 @@ public class TitleManager : MonoBehaviour
             }
             color.a = 1f;
             GameStartPanel.color = color;
+            yield return new WaitForSeconds(1f);
             SceneManager.LoadScene(1);
         }
     }
-    private void GameExit() => Application.Quit();
 
     private void GameSetting()
     {
         if (IsSettingUp == false)
         {
-            Debug.Log("세팅을 왜함? ㄹㅇ ㅋㅋ");
             GameSettingPopUp.transform.DOMove(new Vector3(1300, 540, 0), 1.2f).SetEase(Ease.InOutBack);
             IsSettingUp = true;
         }
@@ -84,7 +84,6 @@ public class TitleManager : MonoBehaviour
     {
         if (IsSettingUp == true)
         {
-            Debug.Log("게임 세팅 화면 종료");
             GameSettingPopUp.transform.DOMove(new Vector3(2700, 540, 0), 1.2f).SetEase(Ease.InOutBack);
             IsSettingUp = false;
         }
