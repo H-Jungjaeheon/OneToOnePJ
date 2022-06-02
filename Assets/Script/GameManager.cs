@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    static GameManager Instance { get; set; }
+    public static GameManager Instance { get; set; }
     public int StageClearCount;
+
+    private void Awake()
+    {
+        var obj = FindObjectsOfType<GameManager>();
+        if (obj.Length == 1)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     // Start is called before the first frame update
     void Start()
     {

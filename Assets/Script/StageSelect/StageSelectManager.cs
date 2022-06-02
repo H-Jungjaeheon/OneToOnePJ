@@ -11,15 +11,18 @@ public class StageSelectManager : MonoBehaviour
     [Header("버튼 모음")]
     [SerializeField] private Button StagePassButtonLeft;
     [SerializeField] private Button StagePassButtonRight, SettingButton, SettingCloseButton, ReturnTitleButton;
-    [SerializeField] private Button[] StageLockButton;
+    [SerializeField] private Button[] StageLockButton, GoStageButton;
     [Header("오브젝트 모음")]
     [SerializeField] private GameObject ReturnTitleObj, GameSettingPopUp;
-    [SerializeField] private GameObject[] BookObjs, BookPositionObj;
+    [SerializeField] private GameObject[] BookObjs, StageLockObj;
     [Header("씬 이동 연출 이미지")]
     [SerializeField] private Image ReturnToTitleImage;
+    [Header("스테이지 잠금 연출 오브젝트")]
+    [SerializeField] private Image StageLockImage;
+    [SerializeField] private Text StageLockText;
     [Header("현재 스테이지 선택 인덱스")]
     [SerializeField] private int StageSelectCount;
-    [SerializeField] private bool IsSettingUp;
+    [SerializeField] private bool IsSettingUp, IsLocking;
     #endregion
 
     // Start is called before the first frame update
@@ -28,20 +31,22 @@ public class StageSelectManager : MonoBehaviour
         StartSetting();
     }
 
-    // Update is called once per frame
     void Update()
     {
         BookAnim();
     }
+
     private void BookAnim()
     {
-        for(int a = 0; a < 6; a++)
+        for (int a = 0; a < 6; a++)
         {
             BookObjs[a].transform.position = new Vector3(BookObjs[a].transform.position.x, 540 + Mathf.Cos(Time.time * 1.6f) * 10, 0);
         }
     }
+
     private void StartSetting()
     {
+        int StageLockCount = 0;
         StageSelectCount = 0;
         ReturnTitleObj.SetActive(false);
         SettingButton.onClick.AddListener(SettingPopUp);
@@ -49,14 +54,49 @@ public class StageSelectManager : MonoBehaviour
         ReturnTitleButton.onClick.AddListener(() => StartCoroutine(ReturnToTitle(1f)));
         StagePassButtonLeft.onClick.AddListener(StagePassL);
         StagePassButtonRight.onClick.AddListener(StagePassR);
-        for(int a = 0; a < 5; a++)
+        for (int a = 0; a < 5; a++)
         {
-            StageLockButton[a].onClick.AddListener(StageLock);
+            StageLockButton[a].onClick.AddListener(() => StartCoroutine(StageLock(1f)));
+        }
+        for (int a = 0; a < 6; a++)
+        {
+            int StageIndex = a;
+            GoStageButton[a].onClick.AddListener(() => StageButtonSetting(StageIndex + 1));
+        }
+        while (true)
+        {
+            StageLockObj[StageLockCount].SetActive(false);
+            if (StageLockCount < GameManager.Instance.StageClearCount)
+                StageLockCount++;
+            else
+                break;
         }
     }
-    private void StageLock()
+    private void StageButtonSetting(int StageIndex) => SceneManager.LoadScene($"Stage{StageIndex}");
+    private IEnumerator StageLock(float FaidTime)
     {
-
+        if (IsLocking == false)
+        {
+            IsLocking = true;
+            float NowFaidTime = FaidTime;
+            Color color = StageLockImage.color;
+            Color color2 = StageLockText.color;
+            color.a = 1;
+            color2.a = 1;
+            StageLockImage.color = color;
+            StageLockText.color = color2;
+            yield return new WaitForSeconds(1);
+            while (NowFaidTime >= 0)
+            {
+                NowFaidTime -= Time.deltaTime;
+                color.a = NowFaidTime;
+                color2.a = NowFaidTime;
+                StageLockImage.color = color;
+                StageLockText.color = color2;
+                yield return null;
+            }
+            IsLocking = false;
+        }
     }
     private void SettingPopUp()
     {
@@ -76,7 +116,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private IEnumerator ReturnToTitle(float FaidTime)
     {
-        if(IsSettingUp == false)
+        if (IsSettingUp == false)
         {
             ReturnTitleObj.SetActive(true);
             Color color = ReturnToTitleImage.color;
@@ -94,20 +134,20 @@ public class StageSelectManager : MonoBehaviour
     }
     private void StagePassL()
     {
-        if((StageSelectCount - 1) >= 0 && IsSettingUp == false)
+        if ((StageSelectCount - 1) >= 0 && IsSettingUp == false)
         {
             StageSelectCount--;
-            BookObjs[StageSelectCount].transform.DOMove(BookPositionObj[1].transform.position, 1).SetEase(Ease.InBack);
-            BookObjs[StageSelectCount + 1].transform.DOMove(BookPositionObj[2].transform.position, 1).SetEase(Ease.InBack);
+            BookObjs[StageSelectCount].transform.DOMove(new Vector3(960,540,0), 1).SetEase(Ease.InBack);
+            BookObjs[StageSelectCount + 1].transform.DOMove(new Vector3(2890,540,0), 1).SetEase(Ease.InBack);
         }
     }
     private void StagePassR()
-    {
-        if((StageSelectCount + 1) <= 5 && IsSettingUp == false)
+    { 
+        if ((StageSelectCount + 1) <= 5 && IsSettingUp == false)
         {
             StageSelectCount++;
-            BookObjs[StageSelectCount].transform.DOMove(BookPositionObj[1].transform.position, 1).SetEase(Ease.InBack);
-            BookObjs[StageSelectCount - 1].transform.DOMove(BookPositionObj[0].transform.position, 1).SetEase(Ease.InBack);
+            BookObjs[StageSelectCount].transform.DOMove(new Vector3(960, 540, 0), 1).SetEase(Ease.InBack);
+            BookObjs[StageSelectCount - 1].transform.DOMove(new Vector3(-970, 540, 0), 1).SetEase(Ease.InBack);
         }
     }
 }
