@@ -11,6 +11,7 @@ public class StageSelectManager : MonoBehaviour
     [Header("버튼 모음")]
     [SerializeField] private Button StagePassButtonLeft;
     [SerializeField] private Button StagePassButtonRight, SettingButton, SettingCloseButton, ReturnTitleButton;
+    [SerializeField] private Button[] StageLockButton;
     [Header("오브젝트 모음")]
     [SerializeField] private GameObject ReturnTitleObj, GameSettingPopUp;
     [SerializeField] private GameObject[] BookObjs, BookPositionObj;
@@ -48,6 +49,14 @@ public class StageSelectManager : MonoBehaviour
         ReturnTitleButton.onClick.AddListener(() => StartCoroutine(ReturnToTitle(1f)));
         StagePassButtonLeft.onClick.AddListener(StagePassL);
         StagePassButtonRight.onClick.AddListener(StagePassR);
+        for(int a = 0; a < 5; a++)
+        {
+            StageLockButton[a].onClick.AddListener(StageLock);
+        }
+    }
+    private void StageLock()
+    {
+
     }
     private void SettingPopUp()
     {

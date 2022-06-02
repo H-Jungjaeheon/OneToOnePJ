@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     static GameManager Instance { get; set; }
+    public int StageClearCount;
     // Start is called before the first frame update
     void Start()
     {
