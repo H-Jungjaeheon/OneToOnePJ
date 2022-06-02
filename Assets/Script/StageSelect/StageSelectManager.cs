@@ -12,14 +12,15 @@ public class StageSelectManager : MonoBehaviour
     [SerializeField] private Button StagePassButtonLeft;
     [SerializeField] private Button StagePassButtonRight, SettingButton, SettingCloseButton, ReturnTitleButton;
     [Header("오브젝트 모음")]
-    [SerializeField] private GameObject ReturnTitleObj;
+    [SerializeField] private GameObject ReturnTitleObj, GameSettingPopUp;
     [SerializeField] private GameObject[] BookObjs, BookPositionObj;
     [Header("씬 이동 연출 이미지")]
     [SerializeField] private Image ReturnToTitleImage;
     [Header("현재 스테이지 선택 인덱스")]
     [SerializeField] private int StageSelectCount;
+    [SerializeField] private bool IsSettingUp;
     #endregion
-   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,37 +44,48 @@ public class StageSelectManager : MonoBehaviour
         StageSelectCount = 0;
         ReturnTitleObj.SetActive(false);
         SettingButton.onClick.AddListener(SettingPopUp);
-        //SettingCloseButton.onClick.AddListener(SettingClose);
+        SettingCloseButton.onClick.AddListener(SettingClose);
         ReturnTitleButton.onClick.AddListener(() => StartCoroutine(ReturnToTitle(1f)));
         StagePassButtonLeft.onClick.AddListener(StagePassL);
         StagePassButtonRight.onClick.AddListener(StagePassR);
     }
     private void SettingPopUp()
     {
-
+        if (IsSettingUp == false)
+        {
+            GameSettingPopUp.transform.DOMove(new Vector3(1300, 540, 0), 1.2f).SetEase(Ease.InOutBack);
+            IsSettingUp = true;
+        }
     }
     private void SettingClose()
     {
-
+        if (IsSettingUp == true)
+        {
+            GameSettingPopUp.transform.DOMove(new Vector3(2700, 540, 0), 1.2f).SetEase(Ease.InOutBack);
+            IsSettingUp = false;
+        }
     }
     private IEnumerator ReturnToTitle(float FaidTime)
     {
-        ReturnTitleObj.SetActive(true);
-        Color color = ReturnToTitleImage.color;
-        float NowFaidTime = 0;
-        while (NowFaidTime <= FaidTime)
+        if(IsSettingUp == false)
         {
-            color.a = NowFaidTime;
-            ReturnToTitleImage.color = color;
-            NowFaidTime += Time.deltaTime;
-            yield return null;
+            ReturnTitleObj.SetActive(true);
+            Color color = ReturnToTitleImage.color;
+            float NowFaidTime = 0;
+            while (NowFaidTime <= FaidTime)
+            {
+                color.a = NowFaidTime;
+                ReturnToTitleImage.color = color;
+                NowFaidTime += Time.deltaTime;
+                yield return null;
+            }
+            yield return new WaitForSeconds(1);
+            SceneManager.LoadScene(0);
         }
-        yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(0);
     }
     private void StagePassL()
     {
-        if((StageSelectCount - 1) >= 0)
+        if((StageSelectCount - 1) >= 0 && IsSettingUp == false)
         {
             StageSelectCount--;
             BookObjs[StageSelectCount].transform.DOMove(BookPositionObj[1].transform.position, 1).SetEase(Ease.InBack);
@@ -82,7 +94,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private void StagePassR()
     {
-        if((StageSelectCount + 1) <= 5)
+        if((StageSelectCount + 1) <= 5 && IsSettingUp == false)
         {
             StageSelectCount++;
             BookObjs[StageSelectCount].transform.DOMove(BookPositionObj[1].transform.position, 1).SetEase(Ease.InBack);
