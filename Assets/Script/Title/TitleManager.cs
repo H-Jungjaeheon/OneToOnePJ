@@ -49,7 +49,7 @@ public class TitleManager : MonoBehaviour
         GameSettingExitButton.onClick.AddListener(GameSettingClose);
         GameExitButton.onClick.AddListener(() => Application.Quit());
     }
-    private void MoveTitleName() => TitleNameObj.transform.position = new Vector3(TitleNameObj.transform.position.x, TitleNameObj.transform.position.y + Mathf.Sin(Time.time * 1f) * 0.1f, 0);
+    private void MoveTitleName() => TitleNameObj.transform.position = new Vector3(TitleNameObj.transform.position.x, TitleNameObj.transform.position.y + Mathf.Sin(Time.time * 1f) * 0.25f, 0);
     #region 타이틀 버튼 관련 함수
 
     private IEnumerator GameStartCoroutine(float duration)
