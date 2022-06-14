@@ -40,7 +40,7 @@ public class StageSelectManager : MonoBehaviour
     {
         for (int a = 0; a < 6; a++)
         {
-            BookObjs[a].transform.position = new Vector3(BookObjs[a].transform.position.x, BookObjs[a].transform.position.y + Mathf.Cos(Time.time * 1.6f) * 0.5f, 0);
+            BookObjs[a].transform.position = new Vector3(BookObjs[a].transform.position.x, BookObjs[a].transform.position.y + Mathf.Sin(Time.time * 1f) * 0.1f, 0);
         }
     }
 
