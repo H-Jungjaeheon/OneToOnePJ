@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MouseParticle : MonoBehaviour
 {
-    // 카메라로부터의 거리
-    public float _distanceFromCamera = 5f;
+    public ParticleSystem particle;
+
+    public float _distanceFromCamera = 5f; //카메라로부터의 거리
 
     [Range(0.01f, 1.0f)]
     public float _ChasingSpeed = 0.1f;
@@ -21,10 +22,17 @@ public class MouseParticle : MonoBehaviour
 
     void Update()
     {
-        _mousePos = Input.mousePosition;
-        _mousePos.z = _distanceFromCamera;
+        if (Input.GetMouseButton(0))
+        {
+            _mousePos = Input.mousePosition;
+            _mousePos.z = _distanceFromCamera;
 
-        _nextPos = Camera.main.ScreenToWorldPoint(_mousePos);
-        transform.position = Vector3.Lerp(transform.position, _nextPos, _ChasingSpeed);
+            _nextPos = Camera.main.ScreenToWorldPoint(_mousePos);
+            transform.position = Vector3.Lerp(transform.position, _nextPos, _ChasingSpeed);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
