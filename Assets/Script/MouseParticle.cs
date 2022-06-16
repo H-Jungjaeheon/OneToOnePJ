@@ -14,6 +14,10 @@ public class MouseParticle : MonoBehaviour
     private Vector3 _mousePos;
     private Vector3 _nextPos;
 
+    private void Awake()
+    {
+        particle = GetComponent<ParticleSystem>();
+    }
     private void OnValidate()
     {
         if (_distanceFromCamera < 0f)
@@ -24,6 +28,9 @@ public class MouseParticle : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
+            //print("드래그중");
+            particle.Play();
+            particle.loop = true;
             _mousePos = Input.mousePosition;
             _mousePos.z = _distanceFromCamera;
 
@@ -32,7 +39,9 @@ public class MouseParticle : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false);
+            //particle.Stop();
+            //print("드래그X");
+            particle.loop = false;
         }
     }
 }
