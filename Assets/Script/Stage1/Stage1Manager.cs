@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class Stage1Manager : MonoBehaviour
 {
-    [SerializeField] private GameObject GameManager;
-    [SerializeField] private Button StagePauseButton, PauseOffButton, StageContinueButton, StageExitButton, StageRestartButton;
+    [SerializeField] private GameObject GameManager, GamePauseObj, GameStartPanelObj, GameHelpObj;
+    [SerializeField] private Button StagePauseButton, StageContinueButton, StageExitButton, StageRestartButton, GameHelpButton;
+    [SerializeField] private bool StageStarting;
     public int ResultCount;
+    
     private void Awake()
     {
+        GamePauseObj.SetActive(false);
         GameManager = GameObject.Find("GameManager");
         StagePauseButton.onClick.AddListener(()=> ClickStagePauseButton());
+        StageContinueButton.onClick.AddListener(() => ClickStageContinueButton());
+        StageExitButton.onClick.AddListener(() => ClickStageExitButton());
+        StageRestartButton.onClick.AddListener(() => ClickStageRestartButton());
     }
     private void FixedUpdate()
     {
@@ -27,24 +34,10 @@ public class Stage1Manager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
     }
-    private void ClickStagePauseButton()
-    {
-
-    }
-    private void ClickPauseOffButton()
-    {
-
-    }
-    private void ClickStageContinueButton()
-    {
-
-    }
-    private void ClickStageExitButton()
-    {
-
-    }
-    private void ClickStageRestartButton()
-    {
-
-    }
+    #region 스테이지 버튼 모음
+    private void ClickStagePauseButton() => GamePauseObj.SetActive(true);
+    private void ClickStageContinueButton() => GamePauseObj.SetActive(false);
+    private void ClickStageExitButton() => SceneManager.LoadScene(1);
+    private void ClickStageRestartButton() => SceneManager.LoadScene(2);
+    #endregion
 }
