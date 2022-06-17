@@ -7,15 +7,16 @@ using DG.Tweening;
 
 public class Stage1Manager : MonoBehaviour
 {
-    [SerializeField] private GameObject GameManager, GamePauseObj, GameStartPanelObj, GameHelpObj, StartPanelObj, StartPanelPos;
-    [SerializeField] private Button StagePauseButton, StageContinueButton, StageExitButton, StageRestartButton, GameHelpButton;
-    [SerializeField] private Image StartFaidBackGround, StartPanelImage;
+    [SerializeField] private GameObject GameManager, GamePauseObj, GameStartPanelObj, StartPanelObj, StartPanelPos, SameBlackBG;
+    [SerializeField] private Button StagePauseButton, StageContinueButton, StageExitButton, StageRestartButton, GameHelpButton, ExitGameHelpButton;
+    [SerializeField] private Image StartFaidBackGround, StartPanelImage, ProgressImage, GameHelpImage;
     [SerializeField] private Text[] StartText;
-    //[SerializeField] private bool StageStarting;
-    public int ResultCount;
+    public float ResultCount;
+    public RectTransform a;
     
     private void Awake()
     {
+        //float b = a.anchoredPosition.x;
         StartSetting();
     }
     private void Start()
@@ -35,10 +36,13 @@ public class Stage1Manager : MonoBehaviour
         StageContinueButton.onClick.AddListener(() => ClickStageContinueButton());
         StageExitButton.onClick.AddListener(() => ClickStageExitButton());
         StageRestartButton.onClick.AddListener(() => ClickStageRestartButton());
+        GameHelpButton.onClick.AddListener(()=> ClickStageHelpButton());
+        ExitGameHelpButton.onClick.AddListener(() => ClickStageHelpExitButton());
     }
     private void IsStageClear()
     {
-        if(ResultCount >= 7)
+        ProgressImage.fillAmount = ResultCount / 7;
+        if (ResultCount >= 7)
         {
             //클리어 연출 출력(미개발)
             GameManager.GetComponent<GameManager>().StageClearCount++;
@@ -67,8 +71,24 @@ public class Stage1Manager : MonoBehaviour
         GameStartPanelObj.SetActive(false);
     }
     #region 스테이지 버튼 모음
-    private void ClickStagePauseButton() => GamePauseObj.SetActive(true);
-    private void ClickStageContinueButton() => GamePauseObj.SetActive(false);
+    private void ClickStagePauseButton()
+    {
+        GamePauseObj.SetActive(true);
+        SameBlackBG.SetActive(true);
+    }
+    private void ClickStageContinueButton()
+    {
+        GamePauseObj.SetActive(false);
+        SameBlackBG.SetActive(false);
+    }
+    private void ClickStageHelpButton()
+    {
+        SameBlackBG.SetActive(true);
+    }
+    private void ClickStageHelpExitButton()
+    {
+        SameBlackBG.SetActive(false);
+    }
     private void ClickStageExitButton() => SceneManager.LoadScene(1);
     private void ClickStageRestartButton() => SceneManager.LoadScene(2);
     #endregion
