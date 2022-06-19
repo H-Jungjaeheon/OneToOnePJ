@@ -13,7 +13,7 @@ public class Stage1Guy : MonoBehaviour
         if(collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<Stage1Hat>().IsDraging == false && collision.gameObject.GetComponent<Stage1Hat>().HatIndex == GuyIndex)
         {
             print("정답 파티클");
-            //맞음 파티클 출력
+            Instantiate(ResultParticle, new Vector3(transform.position.x, transform.position.y + 0.5f, 0), ResultParticle.transform.rotation);
         }
     }
     #endregion

@@ -10,17 +10,20 @@ public class Stage1Manager : MonoBehaviour
     [Header("게임 오브젝트 모음")]
     [SerializeField] private GameObject GamePauseObj; //일시정지 오브젝트
     [SerializeField] private GameObject GameStartPanelObj, StartPanelObj, StartPanelPos, // 게임시작 연출 전체 오브젝트, 게임시작 연출 간판 오브젝트, 간판 오브젝트 위치 오브젝트
-    SameBlackBG, GameHelpObj, StartAnimSkipButtonObj; // 공용사용(Faid) 연출 오브젝트, 게임 도움말 오브젝트, 스타트 애니메이션 스킵 버튼 오브젝트
+    SameBlackBG, GameHelpObj, StartAnimSkipButtonObj, StageClearParticleObj, ParticleObjSpawner, // 공용사용(Faid) 연출 오브젝트, 게임 도움말 오브젝트, 스타트 애니메이션 스킵 버튼 오브젝트
+    GameClearBalloonObj, GameClearObj;
     [Header("버튼 모음")]
     [SerializeField] private Button StagePauseButton;
     [SerializeField] private Button StageContinueButton, StageExitButton,
-    StageRestartButton, GameHelpButton, ExitGameHelpButton, StartAnimSkipButton;
+    StageRestartButton, GameHelpButton, ExitGameHelpButton, StartAnimSkipButton,
+    NextStageButton, ReturnStageSelectButton;
     [Header("이미지 모음")]
     [SerializeField] private Image StartFaidBackGround;
     [SerializeField] private Image StartPanelImage, ProgressImage;
     [SerializeField] private Text[] StartText;
     [SerializeField] private Text SkipText;
     public float ResultCount;
+    private bool Closing, GameClear;
     
     private void Awake()
     {
@@ -45,19 +48,30 @@ public class Stage1Manager : MonoBehaviour
         GameHelpButton.onClick.AddListener(()=> ClickStageHelpButton());
         ExitGameHelpButton.onClick.AddListener(() => ClickStageHelpExitButton());
         StartAnimSkipButton.onClick.AddListener(() => ClickStageStartAnimSkipButton());
-        if(GameManager.Instance.IsSkipAble[0]) StartAnimSkipButtonObj.SetActive(true);
+        NextStageButton.onClick.AddListener(() => GoToNextStage());
+        ReturnStageSelectButton.onClick.AddListener(() => ClickStageExitButton());
+        if (GameManager.Instance.IsSkipAble[0]) StartAnimSkipButtonObj.SetActive(true);
         else StartAnimSkipButtonObj.SetActive(false);
     }
     #region 스테이지 클리어 함수
     private void IsStageClear()
     {
         ProgressImage.fillAmount = ResultCount / 7;
-        if (ResultCount >= 7)
+        if (ResultCount == 7)
         {
-            //클리어 연출 출력(미개발)
+            GameClear = true;
+            ResultCount++;
             GameManager.Instance.StageClearCount++;
-            SceneManager.LoadScene(1);
+            StartCoroutine(StageClear());
         }
+    }
+    IEnumerator StageClear()
+    {
+        Instantiate(StageClearParticleObj, ParticleObjSpawner.transform.position + new Vector3(0,0,-90), StageClearParticleObj.transform.rotation);
+        GameClearBalloonObj.SetActive(true);
+        yield return new WaitForSeconds(7f);
+        SameBlackBG.SetActive(true);
+        GameClearObj.transform.DOScale(1, 0.8f).SetEase(Ease.InCubic);
     }
     #endregion
     #region 시작 애니메이션
@@ -92,8 +106,11 @@ public class Stage1Manager : MonoBehaviour
     #region 스테이지 버튼 모음
     private void ClickStagePauseButton()
     {
-        GamePauseObj.SetActive(true);
-        SameBlackBG.SetActive(true);
+        if(GameClear == false)
+        {
+            GamePauseObj.SetActive(true);
+            SameBlackBG.SetActive(true);
+        }
     }
     private void ClickStageContinueButton()
     {
@@ -102,13 +119,21 @@ public class Stage1Manager : MonoBehaviour
     }
     private void ClickStageHelpButton()
     {
-        SameBlackBG.SetActive(true);
-        GameHelpObj.transform.DOMove(new Vector3(1480, GameHelpObj.transform.position.y, 0), 1.2f).SetEase(Ease.InOutBack);
+        if (Closing == false && GameClear == false)
+        {
+            SameBlackBG.SetActive(true);
+            GameHelpObj.transform.DOMove(new Vector3(0, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z), 1.2f).SetEase(Ease.InOutBack);
+            Closing = true;
+        }
     }
     private void ClickStageHelpExitButton()
     {
-        SameBlackBG.SetActive(false);
-        GameHelpObj.transform.DOMove(new Vector3(3250, GameHelpObj.transform.position.y, 0), 1.2f).SetEase(Ease.InOutBack);
+        if(Closing == true)
+        {
+            SameBlackBG.SetActive(false);
+            GameHelpObj.transform.DOMove(new Vector3(15, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z), 1.2f).SetEase(Ease.InOutBack);
+            Closing = false;
+        }
     }
     private void ClickStageStartAnimSkipButton()
     {
@@ -117,5 +142,6 @@ public class Stage1Manager : MonoBehaviour
     }
     private void ClickStageExitButton() => SceneManager.LoadScene(1);
     private void ClickStageRestartButton() => SceneManager.LoadScene(2);
+    private void GoToNextStage() => SceneManager.LoadScene(3);
     #endregion
 }
