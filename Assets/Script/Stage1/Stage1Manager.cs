@@ -8,28 +8,28 @@ using DG.Tweening;
 public class Stage1Manager : MonoBehaviour
 {
     [Header("게임 오브젝트 모음")]
-    [SerializeField] private GameObject GamePauseObj; //일시정지 오브젝트
-    [SerializeField] private GameObject GameStartPanelObj, StartPanelObj, StartPanelPos, // 게임시작 연출 전체 오브젝트, 게임시작 연출 간판 오브젝트, 간판 오브젝트 위치 오브젝트
+    [SerializeField] protected GameObject GamePauseObj; //일시정지 오브젝트
+    [SerializeField] protected GameObject GameStartPanelObj, StartPanelObj, StartPanelPos, // 게임시작 연출 전체 오브젝트, 게임시작 연출 간판 오브젝트, 간판 오브젝트 위치 오브젝트
     SameBlackBG, GameHelpObj, StartAnimSkipButtonObj, StageClearParticleObj, ParticleObjSpawner, // 공용사용(Faid) 연출 오브젝트, 게임 도움말 오브젝트, 스타트 애니메이션 스킵 버튼 오브젝트
     GameClearBalloonObj, GameClearObj;
     [Header("버튼 모음")]
-    [SerializeField] private Button StagePauseButton;
-    [SerializeField] private Button StageContinueButton, StageExitButton,
+    [SerializeField] protected Button StagePauseButton;
+    [SerializeField] protected Button StageContinueButton, StageExitButton,
     StageRestartButton, GameHelpButton, ExitGameHelpButton, StartAnimSkipButton,
     NextStageButton, ReturnStageSelectButton;
     [Header("이미지 모음")]
-    [SerializeField] private Image StartFaidBackGround;
-    [SerializeField] private Image StartPanelImage, ProgressImage;
-    [SerializeField] private Text[] StartText;
-    [SerializeField] private Text SkipText;
+    [SerializeField] protected Image StartFaidBackGround;
+    [SerializeField] protected Image StartPanelImage, ProgressImage;
+    [SerializeField] protected Text[] StartText;
+    [SerializeField] protected Text SkipText;
     public float ResultCount;
-    private bool Closing, GameClear;
+    [SerializeField] protected bool Closing, GameClear, IsStart;
     
-    private void Awake()
+    protected virtual void Awake()
     {
         StartSetting();
     }
-    private void Start()
+    protected virtual void Start()
     {
         StartCoroutine(StartAnim(1.5f));
     }
@@ -37,7 +37,7 @@ public class Stage1Manager : MonoBehaviour
     {
         IsStageClear();
     }
-    private void StartSetting()
+    protected virtual void StartSetting()
     {
         GamePauseObj.SetActive(false);
         GameStartPanelObj.SetActive(true);
@@ -65,7 +65,7 @@ public class Stage1Manager : MonoBehaviour
             StartCoroutine(StageClear());
         }
     }
-    IEnumerator StageClear()
+    protected virtual IEnumerator StageClear()
     {
         Instantiate(StageClearParticleObj, ParticleObjSpawner.transform.position + new Vector3(0,0,-90), StageClearParticleObj.transform.rotation);
         GameClearBalloonObj.SetActive(true);
@@ -75,7 +75,7 @@ public class Stage1Manager : MonoBehaviour
     }
     #endregion
     #region 시작 애니메이션
-    IEnumerator StartAnim(float FaidTime)
+    protected virtual IEnumerator StartAnim(float FaidTime)
     {
         float NowFaidTime = FaidTime;
         StartPanelObj.transform.DOMove(StartPanelPos.transform.position, 1.5f);
@@ -100,11 +100,12 @@ public class Stage1Manager : MonoBehaviour
         }
         GameManager.Instance.IsSkipAble[0] = true;
         GameStartPanelObj.SetActive(false);
+        IsStart = true;
     }
     #endregion
 
     #region 스테이지 버튼 모음
-    private void ClickStagePauseButton()
+    protected virtual void ClickStagePauseButton()
     {
         if(GameClear == false)
         {
@@ -112,12 +113,12 @@ public class Stage1Manager : MonoBehaviour
             SameBlackBG.SetActive(true);
         }
     }
-    private void ClickStageContinueButton()
+    protected virtual void ClickStageContinueButton()
     {
         GamePauseObj.SetActive(false);
         SameBlackBG.SetActive(false);
     }
-    private void ClickStageHelpButton()
+    protected virtual void ClickStageHelpButton()
     {
         if (Closing == false && GameClear == false)
         {
@@ -126,7 +127,7 @@ public class Stage1Manager : MonoBehaviour
             Closing = true;
         }
     }
-    private void ClickStageHelpExitButton()
+    protected virtual void ClickStageHelpExitButton()
     {
         if(Closing == true)
         {
@@ -135,13 +136,13 @@ public class Stage1Manager : MonoBehaviour
             Closing = false;
         }
     }
-    private void ClickStageStartAnimSkipButton()
+    protected virtual void ClickStageStartAnimSkipButton()
     {
         StopCoroutine(StartAnim(0));
         GameStartPanelObj.SetActive(false);
     }
-    private void ClickStageExitButton() => SceneManager.LoadScene(1);
-    private void ClickStageRestartButton() => SceneManager.LoadScene(2);
-    private void GoToNextStage() => SceneManager.LoadScene(3);
+    protected virtual void ClickStageExitButton() => SceneManager.LoadScene(1);
+    protected virtual void ClickStageRestartButton() => SceneManager.LoadScene(2);
+    protected virtual void GoToNextStage() => SceneManager.LoadScene(3);
     #endregion
 }
