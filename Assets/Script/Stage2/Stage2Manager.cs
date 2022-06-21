@@ -8,8 +8,6 @@ using DG.Tweening;
 public class Stage2Manager : Stage1Manager
 {
     [SerializeField] private float MaxResultCount;
-    [SerializeField] private int MermaidMoveIndex;
-    [SerializeField] private GameObject LittleMermaidObj;
     [SerializeField] private int PHp;
     public int Hp { get; set; } = 3;
     private void FixedUpdate()
