@@ -5,15 +5,31 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
-public class Stage2Manager : Stage1Manager
+class Stage2Manager : Stage1Manager
 {
+    public static Stage2Manager Instance { get; set; }
     [SerializeField] private float MaxResultCount;
-    [SerializeField] private int PHp;
-    public int Hp { get; set; } = 3;
+    [SerializeField] private GameObject[] HpObj;
+    public Animator[] animator;
+    public int Hp;
+  
     private void FixedUpdate()
     {
         IsStageClear();
-        PHp = Hp;
+    }
+    protected override void Start()
+    {
+        base.Start();
+        for (int a = 0; a < 3; a++)
+        {
+            animator[a] = HpObj[a].GetComponent<Animator>();
+        }
+    }
+    protected override void StartSetting()
+    {
+        base.StartSetting();
+        Instance = this;
+        Hp = 3;
     }
     private void IsStageClear()
     {
