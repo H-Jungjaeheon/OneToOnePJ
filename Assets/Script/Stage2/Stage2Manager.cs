@@ -12,19 +12,20 @@ class Stage2Manager : Stage1Manager
     [SerializeField] private GameObject[] HpObj, FishSpawnPoint, Fishs;
     public Animator[] animator;
     public int Hp;
-    public bool GameOver;
+    public bool GameEnd;
   
     private void FixedUpdate()
     {
         IsStageClear();
         FishSpawn();
-        IsGameOver();
+        IsEnd();
     }
-    private void IsGameOver()
+    private void IsEnd()
     {
-        if(Hp <= 0)
+        if(Hp <= 0 && !GameEnd)
         {
-            GameOver = true;
+            GameEnd = true;
+            StartCoroutine(GameOver(3));
         }
     }
     protected override void Start()
@@ -50,6 +51,23 @@ class Stage2Manager : Stage1Manager
                 Instantiate(Fishs[FishIndex], FishSpawnPoint[SpawnIndex].transform.position, Fishs[FishIndex].transform.rotation);
             }
         }
+    }
+    private IEnumerator GameOver(float FaidTime)
+    {
+        WaitForSeconds WFS = new WaitForSeconds(0.5f);
+        float NowFaidTime = 0;
+        yield return WFS;
+        Color color = StartFaidBackGround.color;
+        GameStartPanelObj.SetActive(true);
+        while (NowFaidTime < FaidTime)
+        {
+            color.a = NowFaidTime;
+            StartFaidBackGround.color = color;
+            NowFaidTime += Time.deltaTime;
+            yield return null;
+        }
+        yield return WFS;
+        SceneManager.LoadScene(3);
     }
     protected override void StartSetting()
     {

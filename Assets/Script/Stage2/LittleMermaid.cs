@@ -8,7 +8,7 @@ public class LittleMermaid : MonoBehaviour
 {
     [SerializeField] Stage2Manager S2M;
     [SerializeField] Button MermaidUpButton, MermaidDownButton;
-    [SerializeField] bool IsMoving, IsUp, IsDown, IsHit, IsGameClear;
+    [SerializeField] bool IsMoving, IsUp, IsDown, IsHit;
     [SerializeField] float Invincibilitytime, MaxInvincibilitytime;
     [SerializeField] GameObject CamShakeObj;
     [SerializeField] CubismRenderController rendererController;
