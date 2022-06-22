@@ -9,6 +9,7 @@ public class LittleMermaid : MonoBehaviour
     [SerializeField] private Button MermaidUpButton, MermaidDownButton;
     [SerializeField] private bool IsMoving, IsUp, IsDown, IsHit;
     [SerializeField] private float Invincibilitytime, MaxInvincibilitytime;
+    [SerializeField] private GameObject CamShakeObj;
     private Vector3 MoveTransForm, TargetPos;
     private int MermaidMoveIndex;
     private Animator animator;
@@ -85,6 +86,7 @@ public class LittleMermaid : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Fish") && !IsHit)
         {
+            CamShakeObj.GetComponent<CamShake>().VibrateForTime(0.8f);
             Stage2Manager.Instance.Hp -= 1;
             StartCoroutine(HpHit(Stage2Manager.Instance.Hp));
             animator.SetBool("IsHit", true);

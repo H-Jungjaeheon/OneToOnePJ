@@ -140,6 +140,7 @@ public class Stage1Manager : MonoBehaviour
     {
         StopCoroutine(StartAnim(0));
         GameStartPanelObj.SetActive(false);
+        IsStart = true;
     }
     protected virtual void ClickStageExitButton() => SceneManager.LoadScene(1);
     protected virtual void ClickStageRestartButton() => SceneManager.LoadScene(2);

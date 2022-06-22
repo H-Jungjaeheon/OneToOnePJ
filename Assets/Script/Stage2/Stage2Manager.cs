@@ -8,7 +8,7 @@ using DG.Tweening;
 class Stage2Manager : Stage1Manager
 {
     public static Stage2Manager Instance { get; set; }
-    [SerializeField] private float MaxResultCount;
+    [SerializeField] private float MaxResultCount, BGMoveSpeed;
     [SerializeField] private GameObject[] HpObj;
     public Animator[] animator;
     public int Hp;
@@ -16,6 +16,7 @@ class Stage2Manager : Stage1Manager
     private void FixedUpdate()
     {
         IsStageClear();
+        BackGroundMove();
     }
     protected override void Start()
     {
@@ -24,6 +25,10 @@ class Stage2Manager : Stage1Manager
         {
             animator[a] = HpObj[a].GetComponent<Animator>();
         }
+    }
+    private void BackGroundMove()
+    {
+
     }
     protected override void StartSetting()
     {
