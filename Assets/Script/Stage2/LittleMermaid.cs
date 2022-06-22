@@ -72,12 +72,12 @@ public class LittleMermaid : MonoBehaviour
         if (IsMoving && IsUp)
         {
             TargetPos = MoveTransForm + new Vector3(0, 2.15f, 0);
-            transform.position = Vector3.Lerp(transform.position, TargetPos, 0.1f);
+            transform.position = Vector3.Lerp(transform.position, TargetPos, 0.2f);
         }
         else if (IsMoving && IsDown)
         {
             TargetPos = MoveTransForm - new Vector3(0, 2.15f, 0);
-            transform.position = Vector3.Lerp(transform.position, TargetPos, 0.1f);
+            transform.position = Vector3.Lerp(transform.position, TargetPos, 0.2f);
         }
         if (TargetPos.y <= transform.position.y + 0.005f && IsUp || TargetPos.y >= transform.position.y - 0.005f && IsDown)
         {
@@ -92,7 +92,7 @@ public class LittleMermaid : MonoBehaviour
         {
             IsHit = true;
             rendererController.Opacity = 0.8f;
-            CamShakeObj.GetComponent<CamShake>().VibrateForTime(0.8f);
+            CamShakeObj.GetComponent<CamShake>().VibrateForTime(0.4f);
             Stage2Manager.Instance.Hp -= 1;
             StartCoroutine(HpHit(Stage2Manager.Instance.Hp));
             animator.SetBool("IsHit", true);

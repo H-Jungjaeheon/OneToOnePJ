@@ -8,8 +8,10 @@ using DG.Tweening;
 class Stage2Manager : Stage1Manager
 {
     public static Stage2Manager Instance { get; set; }
-    [SerializeField] private float MaxResultCount, SpawnTimer, MaxSpawnTime;
+    [SerializeField] private float MaxResultCount, SpawnTimer, MaxSpawnTime, LastAnimSpeed;
     [SerializeField] private GameObject[] HpObj, FishSpawnPoint, Fishs;
+    [SerializeField] private GameObject Player;
+    private Rigidbody2D Prigid;
     public Animator[] animator;
     public int Hp;
     public bool GameEnd;
@@ -36,6 +38,7 @@ class Stage2Manager : Stage1Manager
             animator[a] = HpObj[a].GetComponent<Animator>();
         }
         MaxSpawnTime = Random.Range(4, 7);
+        Prigid = Player.GetComponent<Rigidbody2D>();
     }
     private void FishSpawn()
     {
@@ -90,7 +93,11 @@ class Stage2Manager : Stage1Manager
     }
     protected override IEnumerator StageClear()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(1.5f);
+        Prigid.AddForce(Vector3.right * LastAnimSpeed);
+        yield return new WaitForSeconds(0.3f);
+        Prigid.velocity = Vector3.zero;
+        Prigid.AddForce(Vector3.left * LastAnimSpeed * 3);
         yield return base.StageClear();
     }
     #region 스테이지 버튼 모음
