@@ -8,15 +8,24 @@ using DG.Tweening;
 class Stage2Manager : Stage1Manager
 {
     public static Stage2Manager Instance { get; set; }
-    [SerializeField] private float MaxResultCount, BGMoveSpeed;
-    [SerializeField] private GameObject[] HpObj;
+    [SerializeField] private float MaxResultCount, SpawnTimer, MaxSpawnTime;
+    [SerializeField] private GameObject[] HpObj, FishSpawnPoint, Fishs;
     public Animator[] animator;
     public int Hp;
+    public bool GameOver;
   
     private void FixedUpdate()
     {
         IsStageClear();
-        BackGroundMove();
+        FishSpawn();
+        IsGameOver();
+    }
+    private void IsGameOver()
+    {
+        if(Hp <= 0)
+        {
+            GameOver = true;
+        }
     }
     protected override void Start()
     {
@@ -25,10 +34,22 @@ class Stage2Manager : Stage1Manager
         {
             animator[a] = HpObj[a].GetComponent<Animator>();
         }
+        MaxSpawnTime = Random.Range(4, 7);
     }
-    private void BackGroundMove()
+    private void FishSpawn()
     {
-
+        if (IsStart && !GameClear)
+        {
+            SpawnTimer += Time.deltaTime;
+            if(SpawnTimer >= MaxSpawnTime)
+            {
+                MaxSpawnTime = Random.Range(5, 8);
+                int FishIndex = Random.Range(0, 4);
+                int SpawnIndex = Random.Range(0, 3);
+                SpawnTimer = 0;
+                Instantiate(Fishs[FishIndex], FishSpawnPoint[SpawnIndex].transform.position, Fishs[FishIndex].transform.rotation);
+            }
+        }
     }
     protected override void StartSetting()
     {
@@ -41,13 +62,18 @@ class Stage2Manager : Stage1Manager
         ProgressImage.fillAmount = ResultCount / MaxResultCount;
         if(IsStart)
            ResultCount += Time.deltaTime;
-        if (ResultCount >= MaxResultCount && GameClear == false)
+        if (ResultCount >= MaxResultCount && !GameClear)
         {
             GameClear = true;
             ResultCount++;
             GameManager.Instance.StageClearCount++;
             StartCoroutine(StageClear());
         }
+    }
+    protected override IEnumerator StageClear()
+    {
+        yield return new WaitForSeconds(5);
+        yield return base.StageClear();
     }
     #region 스테이지 버튼 모음
     protected override void ClickStageExitButton() => SceneManager.LoadScene(1);

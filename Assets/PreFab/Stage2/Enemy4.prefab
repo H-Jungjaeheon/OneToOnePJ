@@ -1579,7 +1579,7 @@ GameObject:
   - component: {fileID: 6452512591416872226}
   - component: {fileID: 7230256439511456116}
   m_Layer: 0
-  m_Name: "\uBB3C\uACE0\uAE304"
+  m_Name: Enemy4
   m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

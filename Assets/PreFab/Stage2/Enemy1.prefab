@@ -1032,7 +1032,7 @@ GameObject:
   - component: {fileID: 642360069050692873}
   - component: {fileID: -1952235469043804810}
   m_Layer: 0
-  m_Name: "\uBB3C\uACE0\uAE301"
+  m_Name: Enemy1
   m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

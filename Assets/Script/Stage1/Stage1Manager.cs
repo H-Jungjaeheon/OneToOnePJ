@@ -23,8 +23,9 @@ public class Stage1Manager : MonoBehaviour
     [SerializeField] protected Text[] StartText;
     [SerializeField] protected Text SkipText;
     public float ResultCount;
-    [SerializeField] protected bool Closing, GameClear, IsStart;
-    
+    [SerializeField] protected bool Closing, IsStart;
+    public bool GameClear;
+
     protected virtual void Awake()
     {
         StartSetting();
@@ -61,7 +62,6 @@ public class Stage1Manager : MonoBehaviour
         {
             GameClear = true;
             ResultCount++;
-            GameManager.Instance.StageClearCount++;
             StartCoroutine(StageClear());
         }
     }
@@ -70,6 +70,7 @@ public class Stage1Manager : MonoBehaviour
         Instantiate(StageClearParticleObj, ParticleObjSpawner.transform.position + new Vector3(0,0,-90), StageClearParticleObj.transform.rotation);
         GameClearBalloonObj.SetActive(true);
         yield return new WaitForSeconds(7f);
+        GameManager.Instance.StageClearCount++;
         SameBlackBG.SetActive(true);
         GameClearObj.transform.DOScale(1, 0.8f).SetEase(Ease.InCubic);
     }

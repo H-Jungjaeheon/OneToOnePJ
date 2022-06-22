@@ -6,7 +6,7 @@ public class Fish : MonoBehaviour
 {
     [SerializeField] private float Speed, HitSpeed;
     private Rigidbody2D rigid;
-    private bool IsHit;
+    public bool IsHit;
     private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -14,6 +14,7 @@ public class Fish : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        GameEnd();
     }
     private void Move()
     {
@@ -25,13 +26,18 @@ public class Fish : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("TheLittleMermaid") && !IsHit)
-        {
-            IsHit = true;
             StartCoroutine(FishHitAnim());
-        }
+        else if(collision.gameObject.CompareTag("ObjDestroy"))
+            Destroy(gameObject);
+    }
+    private void GameEnd()
+    {
+        if (Stage2Manager.Instance.GameClear && !IsHit)
+            StartCoroutine(FishHitAnim());
     }
     private IEnumerator FishHitAnim()
     {
+        IsHit = true;
         transform.rotation = Quaternion.Euler(0, 0, 180);
         rigid.AddForce(Vector3.up * HitSpeed);
         yield return new WaitForSeconds(0.3f);
