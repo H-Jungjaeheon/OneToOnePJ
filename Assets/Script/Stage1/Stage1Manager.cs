@@ -22,16 +22,13 @@ public class Stage1Manager : MonoBehaviour
     [SerializeField] protected Image StartPanelImage, ProgressImage;
     [SerializeField] protected Text[] StartText;
     [SerializeField] protected Text SkipText;
-    public float ResultCount;
     [SerializeField] protected bool Closing, IsStart;
-    public bool GameClear;
+    public bool GameEnd;
+    public float ResultCount;
 
-    protected virtual void Awake()
-    {
-        StartSetting();
-    }
     protected virtual void Start()
     {
+        StartSetting();
         StartCoroutine(StartAnim(1.5f));
     }
     private void FixedUpdate()
@@ -60,13 +57,14 @@ public class Stage1Manager : MonoBehaviour
         ProgressImage.fillAmount = ResultCount / 7;
         if (ResultCount == 7)
         {
-            GameClear = true;
+            GameEnd = true;
             ResultCount++;
-            StartCoroutine(StageClear());
+            StartCoroutine(StageClear(0));
         }
     }
-    protected virtual IEnumerator StageClear()
+    protected virtual IEnumerator StageClear(float StartWait)
     {
+        yield return new WaitForSeconds(StartWait);
         Instantiate(StageClearParticleObj, ParticleObjSpawner.transform.position + new Vector3(0,0,-90), StageClearParticleObj.transform.rotation);
         GameClearBalloonObj.SetActive(true);
         yield return new WaitForSeconds(7f);
@@ -108,7 +106,7 @@ public class Stage1Manager : MonoBehaviour
     #region 스테이지 버튼 모음
     protected virtual void ClickStagePauseButton()
     {
-        if(GameClear == false)
+        if(!GameEnd)
         {
             GamePauseObj.SetActive(true);
             SameBlackBG.SetActive(true);
@@ -121,7 +119,7 @@ public class Stage1Manager : MonoBehaviour
     }
     protected virtual void ClickStageHelpButton()
     {
-        if (Closing == false && GameClear == false)
+        if (!Closing && !GameEnd)
         {
             SameBlackBG.SetActive(true);
             GameHelpObj.transform.DOMove(new Vector3(0, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z), 1.2f).SetEase(Ease.InOutBack);
@@ -130,7 +128,7 @@ public class Stage1Manager : MonoBehaviour
     }
     protected virtual void ClickStageHelpExitButton()
     {
-        if(Closing == true)
+        if(Closing)
         {
             SameBlackBG.SetActive(false);
             GameHelpObj.transform.DOMove(new Vector3(15, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z), 1.2f).SetEase(Ease.InOutBack);

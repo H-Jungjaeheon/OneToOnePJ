@@ -8,20 +8,76 @@ using DG.Tweening;
 class Stage2Manager : Stage1Manager
 {
     public static Stage2Manager Instance { get; set; }
-    [SerializeField] private float MaxResultCount, SpawnTimer, MaxSpawnTime, LastAnimSpeed;
-    [SerializeField] private GameObject[] HpObj, FishSpawnPoint, Fishs;
-    [SerializeField] private GameObject Player;
-    private Rigidbody2D Prigid;
-    public Animator[] animator;
+
+    #region 물고기 생성 변수
+    [Header("물고기 생성 현재시간, 최대 생성 시간 변수")]
+    [SerializeField] private float SpawnTimer;
+    [SerializeField] private float MaxSpawnTime;
+    #endregion
+
+    #region 오브젝트들 모음
+    [Header("체력 오브젝트")]
+    [SerializeField] private GameObject[] HpObj;
+    [Header("물고기 생성위치, 물고기 종류 오브젝트")]
+    [SerializeField] private GameObject[] FishSpawnPoint, Fishs;
+    #endregion
+
+    #region 게임 진행도 변수
+    [Header("최대 게임 진행도")]
+    public float MaxResultCount;
+    #endregion
+
+    #region 체력 변수들 모음
+    [Header("플레이어 체력")]
     public int Hp;
-    public bool GameEnd;
-  
+    [Header("플레이어 체력 애니메이터")]
+    public Animator[] animator;
+    [Header("플레이어 체력 (RectTransform)")]
+    [SerializeField] private RectTransform[] HeartRT;
+    [Header("하트 크기 상태 판별 변수")]
+    [SerializeField] private bool IsBigging;
+    #endregion
+
+    
     private void FixedUpdate()
     {
-        IsStageClear();
+        StageInformation();
         FishSpawn();
         IsEnd();
+        HeartAnim();
     }
+
+    #region 게임 진행도 함수
+    private void StageInformation()
+    {
+        ProgressImage.fillAmount = ResultCount / MaxResultCount;
+        if(IsStart)
+           ResultCount += Time.deltaTime;
+    }
+    #endregion
+
+    #region 하트 애니메이션 함수
+    private void HeartAnim()
+    {
+        for(int HeartObjIndex = 0; HeartObjIndex < 3; HeartObjIndex++)
+        {
+            if (IsBigging)
+            {
+                HeartRT[HeartObjIndex].localScale += new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
+                if (HeartRT[HeartObjIndex].localScale.x >= 0.75f)
+                    IsBigging = false;
+            }
+            else
+            {
+                HeartRT[HeartObjIndex].localScale -= new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
+                if (HeartRT[HeartObjIndex].localScale.x <= 0.65f)
+                    IsBigging = true;
+            }
+        }
+    }
+    #endregion
+
+    #region 게임 종료(GameOver & GameClear) 판별 함수
     private void IsEnd()
     {
         if(Hp <= 0 && !GameEnd)
@@ -29,20 +85,18 @@ class Stage2Manager : Stage1Manager
             GameEnd = true;
             StartCoroutine(GameOver(3));
         }
-    }
-    protected override void Start()
-    {
-        base.Start();
-        for (int a = 0; a < 3; a++)
+        else if(ResultCount >= MaxResultCount && !GameEnd)
         {
-            animator[a] = HpObj[a].GetComponent<Animator>();
+            GameEnd = true;
+            StartCoroutine(StageClear(4f));
         }
-        MaxSpawnTime = Random.Range(4, 7);
-        Prigid = Player.GetComponent<Rigidbody2D>();
     }
+    #endregion
+
+    #region 물고기(장애물) 생성 함수
     private void FishSpawn()
     {
-        if (IsStart && !GameClear)
+        if (IsStart && !GameEnd)
         {
             SpawnTimer += Time.deltaTime;
             if(SpawnTimer >= MaxSpawnTime)
@@ -55,6 +109,9 @@ class Stage2Manager : Stage1Manager
             }
         }
     }
+    #endregion
+
+    #region GameOver 연출 함수
     private IEnumerator GameOver(float FaidTime)
     {
         WaitForSeconds WFS = new WaitForSeconds(0.5f);
@@ -72,34 +129,22 @@ class Stage2Manager : Stage1Manager
         yield return WFS;
         SceneManager.LoadScene(3);
     }
+    #endregion
+
+    #region 스테이지 시작 세팅 함수
     protected override void StartSetting()
     {
         base.StartSetting();
         Instance = this;
-        Hp = 3;
-    }
-    private void IsStageClear()
-    {
-        ProgressImage.fillAmount = ResultCount / MaxResultCount;
-        if(IsStart)
-           ResultCount += Time.deltaTime;
-        if (ResultCount >= MaxResultCount && !GameClear)
+        for (int HeartObjIndex = 0; HeartObjIndex < 3; HeartObjIndex++)
         {
-            GameClear = true;
-            ResultCount++;
-            GameManager.Instance.StageClearCount++;
-            StartCoroutine(StageClear());
+            HeartRT[HeartObjIndex] = HpObj[HeartObjIndex].GetComponent<RectTransform>();
+            animator[HeartObjIndex] = HpObj[HeartObjIndex].GetComponent<Animator>();
         }
+        MaxSpawnTime = Random.Range(4, 7);
     }
-    protected override IEnumerator StageClear()
-    {
-        yield return new WaitForSeconds(1.5f);
-        Prigid.AddForce(Vector3.right * LastAnimSpeed);
-        yield return new WaitForSeconds(0.3f);
-        Prigid.velocity = Vector3.zero;
-        Prigid.AddForce(Vector3.left * LastAnimSpeed * 3);
-        yield return base.StageClear();
-    }
+    #endregion
+
     #region 스테이지 버튼 모음
     protected override void ClickStageExitButton() => SceneManager.LoadScene(1);
     protected override void ClickStageRestartButton() => SceneManager.LoadScene(3);

@@ -6,19 +6,17 @@ using Live2D.Cubism.Rendering;
 
 public class LittleMermaid : MonoBehaviour
 {
-    [SerializeField] Stage2Manager S2M;
     [SerializeField] Button MermaidUpButton, MermaidDownButton;
-    [SerializeField] bool IsMoving, IsUp, IsDown, IsHit;
-    [SerializeField] float Invincibilitytime, MaxInvincibilitytime;
+    [SerializeField] bool IsMoving, IsUp, IsDown, IsHit, IsEndAnim;
+    [SerializeField] float Invincibilitytime, MaxInvincibilitytime, LastAnimSpeed;
     [SerializeField] GameObject CamShakeObj;
     [SerializeField] CubismRenderController rendererController;
     private Vector3 MoveTransForm, TargetPos;
     private int MermaidMoveIndex;
     private Animator animator;
-
+    private Rigidbody2D rigid;
     private void Awake()
     {
-
         StartSettings();
     }
     private void FixedUpdate()
@@ -26,7 +24,7 @@ public class LittleMermaid : MonoBehaviour
         MermaidMove();
         InvincibilityTime();
     }
-    private void InvincibilityTime()
+    private void InvincibilityTime() //맞은 후 무적 함수
     {
         if (IsHit)
         {
@@ -48,7 +46,7 @@ public class LittleMermaid : MonoBehaviour
     }
     private void MoveButtonClick(bool IsUpClick)
     {
-        if (!IsMoving && !IsUp && !IsDown && !Stage2Manager.Instance.GameClear)
+        if (!IsMoving && !IsUp && !IsDown && !Stage2Manager.Instance.GameEnd)
         {
             MoveTransForm = transform.position;
             if (IsUpClick && MermaidMoveIndex < 1 || !IsUpClick && MermaidMoveIndex > -1)
@@ -85,10 +83,15 @@ public class LittleMermaid : MonoBehaviour
             IsUp = false;
             IsDown = false;
         }
+        if(Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount && !IsEndAnim)
+        {
+            IsEndAnim = true;
+            StartCoroutine(StageClearAnim());
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Fish") && !IsHit && !Stage2Manager.Instance.GameClear)
+        if (collision.gameObject.CompareTag("Fish") && !IsHit && !Stage2Manager.Instance.GameEnd)
         {
             IsHit = true;
             rendererController.Opacity = 0.8f;
@@ -103,5 +106,16 @@ public class LittleMermaid : MonoBehaviour
         Stage2Manager.Instance.animator[HeartIndex].SetBool("IsHit", true);
         yield return new WaitForSeconds(0.8f);
         Stage2Manager.Instance.animator[HeartIndex].SetBool("IsDead", true);
+    }
+    private IEnumerator StageClearAnim()
+    {
+        yield return new WaitForSeconds(1f);
+        rigid = gameObject.GetComponent<Rigidbody2D>();
+        rigid.AddForce(Vector3.right * LastAnimSpeed);
+        yield return new WaitForSeconds(0.7f);
+        rigid.velocity = Vector3.zero;
+        rigid.AddForce(Vector3.left * LastAnimSpeed * 3);
+        yield return new WaitForSeconds(2f);
+        rigid.velocity = Vector3.zero;
     }
 }
