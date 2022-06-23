@@ -1805,8 +1805,11 @@ MonoBehaviour:
   Speed: 5
   HitSpeed: 250
   MinMoveIndex: 1
-  MaxMoveIndex: 2
+  MaxMoveIndex: 2.5
   IsMoveCompleat: 0
+  IsUping: 0
+  IsDowning: 0
+  IsGameTimeHalf: 0
   IsHit: 0
 --- !u!1 &6883175488563630302
 GameObject:

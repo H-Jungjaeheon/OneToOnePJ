@@ -32,7 +32,7 @@ class Stage2Manager : Stage1Manager
     public int Hp;
     [Header("플레이어 체력 애니메이터")]
     public Animator[] animator = new Animator[3];
-    private RectTransform[] HeartRT = new RectTransform[3];
+    [SerializeField] private GameObject HeartObj;
     [Header("하트 크기 상태 판별 변수")]
     [SerializeField] private bool IsBigging;
     #endregion
@@ -60,23 +60,17 @@ class Stage2Manager : Stage1Manager
     /// </summary>
     private void HeartAnim()
     {
-        if (GameEnd)
+        if (!GameEnd && IsBigging)
         {
-            for (int HeartObjIndex = 0; HeartObjIndex < 3; HeartObjIndex++)
-            {
-                if (IsBigging)
-                {
-                    HeartRT[HeartObjIndex].localScale += new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
-                    if (HeartRT[HeartObjIndex].localScale.x >= 0.75f)
-                        IsBigging = false;
-                }
-                else
-                {
-                    HeartRT[HeartObjIndex].localScale -= new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
-                    if (HeartRT[HeartObjIndex].localScale.x <= 0.65f)
-                        IsBigging = true;
-                }
-            }
+            HeartObj.transform.localScale += new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
+            if (HeartObj.transform.localScale.x >= 1.05f)
+                IsBigging = false;
+        }
+        else if (!GameEnd && !IsBigging)
+        {
+            HeartObj.transform.localScale -= new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
+            if (HeartObj.transform.localScale.x <= 0.95f)
+                IsBigging = true;
         }
     }
 
@@ -88,12 +82,10 @@ class Stage2Manager : Stage1Manager
     {
         if(Hp <= 0 && !GameEnd)
         {
-            GameEnd = true;
             StartCoroutine(GameOver(3));
         }
         else if(ResultCount >= MaxResultCount && !GameEnd)
         {
-            GameEnd = true;
             StartCoroutine(StageClear(4f));
         }
     }
@@ -124,6 +116,7 @@ class Stage2Manager : Stage1Manager
     /// <returns></returns>
     private IEnumerator GameOver(float FaidTime)
     {
+        GameEnd = true;
         WaitForSeconds WFS = new WaitForSeconds(0.5f);
         float NowFaidTime = 0;
         yield return WFS;
@@ -149,7 +142,6 @@ class Stage2Manager : Stage1Manager
         Instance = this;
         for (int HeartObjIndex = 0; HeartObjIndex < 3; HeartObjIndex++)
         {
-            HeartRT[HeartObjIndex] = HpObj[HeartObjIndex].GetComponent<RectTransform>();
             animator[HeartObjIndex] = HpObj[HeartObjIndex].GetComponent<Animator>();
         }
         MaxSpawnTime = Random.Range(4, 7);

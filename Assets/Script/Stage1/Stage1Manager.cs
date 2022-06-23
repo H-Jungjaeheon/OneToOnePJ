@@ -22,8 +22,8 @@ public class Stage1Manager : MonoBehaviour
     [SerializeField] protected Image StartPanelImage, ProgressImage;
     [SerializeField] protected Text[] StartText;
     [SerializeField] protected Text SkipText;
-    [SerializeField] protected bool Closing, IsStart;
-    public bool GameEnd;
+    [SerializeField] protected bool IsStart;
+    public bool GameEnd, IsStageHelpOn, IsClickHelp;
     public float ResultCount;
 
     protected virtual void Start()
@@ -57,13 +57,13 @@ public class Stage1Manager : MonoBehaviour
         ProgressImage.fillAmount = ResultCount / 7;
         if (ResultCount == 7)
         {
-            GameEnd = true;
             ResultCount++;
             StartCoroutine(StageClear(0));
         }
     }
     protected virtual IEnumerator StageClear(float StartWait)
     {
+        GameEnd = true;
         yield return new WaitForSeconds(StartWait);
         Instantiate(StageClearParticleObj, ParticleObjSpawner.transform.position + new Vector3(0,0,-90), StageClearParticleObj.transform.rotation);
         GameClearBalloonObj.SetActive(true);
@@ -122,20 +122,50 @@ public class Stage1Manager : MonoBehaviour
     }
     protected virtual void ClickStageHelpButton()
     {
-        if (!Closing && !GameEnd)
+        if (!IsStageHelpOn && !GameEnd)
         {
+            Time.timeScale = 0;
             SameBlackBG.SetActive(true);
-            GameHelpObj.transform.DOMove(new Vector3(0, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z), 1.2f).SetEase(Ease.InOutBack);
-            Closing = true;
+            StartCoroutine(StageHelpAnim(true));
+        }
+    }
+    protected virtual IEnumerator StageHelpAnim(bool IsHelp)
+    {
+        WaitForSecondsRealtime WFSR = new WaitForSecondsRealtime(0.01f);
+        Vector3 TargetPos;
+        IsClickHelp = IsHelp;
+        if (IsClickHelp)
+        {
+            while (GameHelpObj.transform.position.x > 0)
+            {
+                TargetPos = new Vector3(-0.1f, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
+                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.1f);
+                yield return WFSR;
+                print(TargetPos);
+            }
+            GameHelpObj.transform.position = new Vector3(0, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
+            IsStageHelpOn = true;
+        }
+        else
+        {
+            while (GameHelpObj.transform.position.x < 26)
+            {
+                TargetPos = new Vector3(26.1f, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
+                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.1f);
+                yield return WFSR;
+                print(TargetPos);
+            }
+            GameHelpObj.transform.position = new Vector3(26, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
+            IsStageHelpOn = false;
         }
     }
     protected virtual void ClickStageHelpExitButton()
     {
-        if(Closing)
+        if(IsStageHelpOn)
         {
+            Time.timeScale = 1;
             SameBlackBG.SetActive(false);
-            GameHelpObj.transform.DOMove(new Vector3(15, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z), 1.2f).SetEase(Ease.InOutBack);
-            Closing = false;
+            StartCoroutine(StageHelpAnim(false));
         }
     }
     protected virtual void ClickStageStartAnimSkipButton()
