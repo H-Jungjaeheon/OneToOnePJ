@@ -37,7 +37,6 @@ class Stage2Manager : Stage1Manager
     [SerializeField] private bool IsBigging;
     #endregion
 
-    
     private void FixedUpdate()
     {
         StageInformation();

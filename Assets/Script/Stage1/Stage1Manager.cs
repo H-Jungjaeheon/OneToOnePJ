@@ -109,12 +109,14 @@ public class Stage1Manager : MonoBehaviour
     {
         if(!GameEnd)
         {
+            Time.timeScale = 0;
             GamePauseObj.SetActive(true);
             SameBlackBG.SetActive(true);
         }
     }
     protected virtual void ClickStageContinueButton()
     {
+        Time.timeScale = 1;
         GamePauseObj.SetActive(false);
         SameBlackBG.SetActive(false);
     }
