@@ -12,6 +12,7 @@ public class Fish : MonoBehaviour
     [SerializeField] private float MinMoveIndex, MaxMoveIndex;
     [Header("랜덤 움직임 실행 판별")]
     [SerializeField] private bool IsMoveCompleat;
+    [SerializeField] private bool IsUping, IsDowning;
     private Vector3 TargetPos;
     private int RandMove;
     private float MoveIndex, NowMoveIndex, NowYPos;
@@ -56,20 +57,26 @@ public class Fish : MonoBehaviour
                 else
                     RandMoves(true);
             }
-            if (TargetPos.y <= transform.position.y + 0.005f || TargetPos.y >= transform.position.y - 0.005f)
-                IsMoveCompleat = true;
+            if (TargetPos.y <= transform.position.y + 0.005f && IsUping || TargetPos.y >= transform.position.y - 0.005f && IsDowning)
+            {
+                IsMoveCompleat = true;                                  
+                IsDowning = false;
+                IsUping = false;
+            }
         }
     }
     private void RandMoves(bool IsUp)
     {
         if (IsUp)
         {
-            TargetPos = transform.position + new Vector3(0, NowYPos + 2.15f, 0);
+            IsUping = true;
+            TargetPos = new Vector3(transform.position.x, NowYPos + 2.15f, 0);
             transform.position = Vector3.Lerp(transform.position, TargetPos, 0.1f);
         }
         else
         {
-            TargetPos = transform.position + new Vector3(0, NowYPos - 2.15f, 0);
+            IsDowning = true;
+            TargetPos = new Vector3(transform.position.x, NowYPos - 2.15f, 0);
             transform.position = Vector3.Lerp(transform.position, TargetPos, 0.1f);
         }
     }
