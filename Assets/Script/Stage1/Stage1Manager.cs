@@ -102,8 +102,9 @@ public class Stage1Manager : MonoBehaviour
         IsStart = true;
     }
     #endregion
-
-    #region 스테이지 버튼 모음
+    /// <summary>
+    /// 기본 스테이지 버튼 모음
+    /// </summary>
     protected virtual void ClickStagePauseButton()
     {
         if(!GameEnd)
@@ -144,5 +145,4 @@ public class Stage1Manager : MonoBehaviour
     protected virtual void ClickStageExitButton() => SceneManager.LoadScene(1);
     protected virtual void ClickStageRestartButton() => SceneManager.LoadScene(2);
     protected virtual void GoToNextStage() => SceneManager.LoadScene(3);
-    #endregion
 }

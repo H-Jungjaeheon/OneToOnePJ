@@ -12,7 +12,7 @@ public class Fish : MonoBehaviour
     [SerializeField] private float MinMoveIndex, MaxMoveIndex;
     [Header("랜덤 움직임 실행 판별")]
     [SerializeField] private bool IsMoveCompleat;
-    [SerializeField] private bool IsUping, IsDowning;
+    [SerializeField] private bool IsUping, IsDowning, IsGameTimeHalf;
     private Vector3 TargetPos;
     private int RandMove;
     private float MoveIndex, NowMoveIndex, NowYPos;
@@ -35,13 +35,17 @@ public class Fish : MonoBehaviour
         MoveIndex = Random.Range(MinMoveIndex, MaxMoveIndex);
         NowYPos = gameObject.transform.position.y;
         RandMove = Random.Range(0, 2);
+        if(Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2)
+        {
+            IsGameTimeHalf = true;
+        }
     }
     private void Move()
     {
         NowMoveIndex += Time.deltaTime;
         if (!IsHit)
             transform.position += new Vector3(Speed * Time.deltaTime, 0, 0);
-        if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2)
+        if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2 && IsGameTimeHalf)
         {
             if(RandMove == 0)
             {

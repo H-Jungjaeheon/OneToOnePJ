@@ -31,9 +31,8 @@ class Stage2Manager : Stage1Manager
     [Header("플레이어 체력")]
     public int Hp;
     [Header("플레이어 체력 애니메이터")]
-    public Animator[] animator;
-    [Header("플레이어 체력 (RectTransform)")]
-    [SerializeField] private RectTransform[] HeartRT;
+    public Animator[] animator = new Animator[3];
+    private RectTransform[] HeartRT = new RectTransform[3];
     [Header("하트 크기 상태 판별 변수")]
     [SerializeField] private bool IsBigging;
     #endregion
@@ -47,37 +46,45 @@ class Stage2Manager : Stage1Manager
         HeartAnim();
     }
 
-    #region 게임 진행도 함수
+    /// <summary>
+    /// 게임 진행도 함수
+    /// </summary>
     private void StageInformation()
     {
         ProgressImage.fillAmount = ResultCount / MaxResultCount;
         if(IsStart)
            ResultCount += Time.deltaTime;
     }
-    #endregion
 
-    #region 하트 애니메이션 함수
+    /// <summary>
+    /// 하트 애니메이션 함수
+    /// </summary>
     private void HeartAnim()
     {
-        for(int HeartObjIndex = 0; HeartObjIndex < 3; HeartObjIndex++)
+        if (GameEnd)
         {
-            if (IsBigging)
+            for (int HeartObjIndex = 0; HeartObjIndex < 3; HeartObjIndex++)
             {
-                HeartRT[HeartObjIndex].localScale += new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
-                if (HeartRT[HeartObjIndex].localScale.x >= 0.75f)
-                    IsBigging = false;
-            }
-            else
-            {
-                HeartRT[HeartObjIndex].localScale -= new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
-                if (HeartRT[HeartObjIndex].localScale.x <= 0.65f)
-                    IsBigging = true;
+                if (IsBigging)
+                {
+                    HeartRT[HeartObjIndex].localScale += new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
+                    if (HeartRT[HeartObjIndex].localScale.x >= 0.75f)
+                        IsBigging = false;
+                }
+                else
+                {
+                    HeartRT[HeartObjIndex].localScale -= new Vector3(Time.deltaTime / 15, Time.deltaTime / 15, 0);
+                    if (HeartRT[HeartObjIndex].localScale.x <= 0.65f)
+                        IsBigging = true;
+                }
             }
         }
     }
-    #endregion
 
-    #region 게임 종료(GameOver & GameClear) 판별 함수
+   
+    /// <summary>
+    /// 게임 종료(GameOver & GameClear) 판별 함수
+    /// </summary>
     private void IsEnd()
     {
         if(Hp <= 0 && !GameEnd)
@@ -91,9 +98,10 @@ class Stage2Manager : Stage1Manager
             StartCoroutine(StageClear(4f));
         }
     }
-    #endregion
 
-    #region 물고기(장애물) 생성 함수
+    /// <summary>
+    /// 물고기(장애물) 생성 함수
+    /// </summary>
     private void FishSpawn()
     {
         if (IsStart && !GameEnd)
@@ -109,9 +117,12 @@ class Stage2Manager : Stage1Manager
             }
         }
     }
-    #endregion
 
-    #region GameOver 연출 함수
+    /// <summary>
+    /// GameOver 연출 함수
+    /// </summary>
+    /// <param name="FaidTime"></param>
+    /// <returns></returns>
     private IEnumerator GameOver(float FaidTime)
     {
         WaitForSeconds WFS = new WaitForSeconds(0.5f);
@@ -129,9 +140,10 @@ class Stage2Manager : Stage1Manager
         yield return WFS;
         SceneManager.LoadScene(3);
     }
-    #endregion
 
-    #region 스테이지 시작 세팅 함수
+    /// <summary>
+    /// 스테이지 시작 세팅 함수
+    /// </summary>
     protected override void StartSetting()
     {
         base.StartSetting();
@@ -143,11 +155,11 @@ class Stage2Manager : Stage1Manager
         }
         MaxSpawnTime = Random.Range(4, 7);
     }
-    #endregion
 
-    #region 스테이지 버튼 모음
+    /// <summary>
+    /// 스테이지 버튼 모음
+    /// </summary>
     protected override void ClickStageExitButton() => SceneManager.LoadScene(1);
     protected override void ClickStageRestartButton() => SceneManager.LoadScene(3);
     protected override void GoToNextStage() => SceneManager.LoadScene(4);
-    #endregion
 }
