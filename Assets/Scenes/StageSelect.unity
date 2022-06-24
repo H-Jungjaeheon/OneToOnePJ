@@ -1940,6 +1940,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageClearCount: 0
   IsSkipAble: 000000000000
+  ClickParticle: {fileID: 5944229171388463868, guid: 82f787bf65fa51f4a9c5f7926167a378, type: 3}
+  MainCam: {fileID: 1767566966}
 --- !u!4 &745484862
 Transform:
   m_ObjectHideFlags: 0

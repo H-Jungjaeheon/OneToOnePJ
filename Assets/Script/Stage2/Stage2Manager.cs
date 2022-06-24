@@ -150,7 +150,7 @@ class Stage2Manager : Stage1Manager
     /// <summary>
     /// 스테이지 버튼 모음
     /// </summary>
-    protected override void ClickStageExitButton() => SceneManager.LoadScene(1);
-    protected override void ClickStageRestartButton() => SceneManager.LoadScene(3);
-    protected override void GoToNextStage() => SceneManager.LoadScene(4);
+    protected override void ClickStageExitButton() => SceneMove(1);
+    protected override void ClickStageRestartButton() => SceneMove(3);
+    protected override void GoToNextStage() => SceneMove(4);
 }

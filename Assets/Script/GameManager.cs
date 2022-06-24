@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; set; }
     public int StageClearCount;
     public bool[] IsSkipAble;
+    [SerializeField] private GameObject ClickParticle;
+    [SerializeField] private Camera MainCam;
+    [SerializeField] private Vector3 MousePos;
 
     private void Awake()
     {
@@ -29,8 +32,17 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        MouseClickParticle();
+    }
+    private void MouseClickParticle()
+    {
+        MousePos = Input.mousePosition;
+        MousePos = MainCam.ScreenToWorldPoint(MousePos) + new Vector3(0, 0, 10);
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(ClickParticle, MousePos, ClickParticle.transform.rotation);
+        }
     }
 }

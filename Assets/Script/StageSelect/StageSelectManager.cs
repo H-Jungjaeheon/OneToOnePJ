@@ -120,7 +120,7 @@ public class StageSelectManager : MonoBehaviour
     {
         if (IsSettingUp == false)
         {
-            GameSettingPopUp.transform.DOMove(SettingPositionObj[0].transform.position, 1.2f).SetEase(Ease.InOutBack);
+            GameSettingPopUp.transform.DOMove(SettingPositionObj[0].transform.position, 0.7f).SetEase(Ease.InFlash);
             IsSettingUp = true;
         }
     }
@@ -128,7 +128,7 @@ public class StageSelectManager : MonoBehaviour
     {
         if (IsSettingUp == true)
         {
-            GameSettingPopUp.transform.DOMove(SettingPositionObj[1].transform.position, 1.2f).SetEase(Ease.InOutBack);
+            GameSettingPopUp.transform.DOMove(SettingPositionObj[1].transform.position, 0.7f).SetEase(Ease.InFlash);
             IsSettingUp = false;
         }
     }

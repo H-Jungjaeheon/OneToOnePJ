@@ -49,7 +49,7 @@ public class TitleManager : MonoBehaviour
         GameSettingExitButton.onClick.AddListener(GameSettingClose);
         GameExitButton.onClick.AddListener(() => Application.Quit());
     }
-    private void MoveTitleName() => TitleNameObj.transform.position = new Vector3(TitleNameObj.transform.position.x, TitleNameObj.transform.position.y + Mathf.Sin(Time.time * 1f) * 0.002f, 0);
+    private void MoveTitleName() => TitleNameObj.transform.position = new Vector3(TitleNameObj.transform.position.x, TitleNameObj.transform.position.y + Mathf.Sin(Time.time * 1f) * 0.001f, 0);
     #region 타이틀 버튼 관련 함수
 
     private IEnumerator GameStartCoroutine(float duration)
@@ -91,7 +91,7 @@ public class TitleManager : MonoBehaviour
     {
         if (IsSettingUp == false)
         {
-            GameSettingPopUp.transform.DOMove(new Vector3(Position1.transform.position.x, Position1.transform.position.y, 0), 1.2f).SetEase(Ease.InOutBack);
+            GameSettingPopUp.transform.DOMove(new Vector3(Position1.transform.position.x, Position1.transform.position.y, 0), 0.7f).SetEase(Ease.InFlash);
             IsSettingUp = true;
         }
     }
@@ -99,7 +99,7 @@ public class TitleManager : MonoBehaviour
     {
         if (IsSettingUp == true)
         {
-            GameSettingPopUp.transform.DOMove(new Vector3(Position2.transform.position.x, Position2.transform.position.y, 0), 1.2f).SetEase(Ease.InOutBack);
+            GameSettingPopUp.transform.DOMove(new Vector3(Position2.transform.position.x, Position2.transform.position.y, 0), 0.7f).SetEase(Ease.InFlash);
             IsSettingUp = false;
         }
     }

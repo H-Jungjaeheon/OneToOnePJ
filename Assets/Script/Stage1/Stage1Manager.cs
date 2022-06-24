@@ -23,6 +23,7 @@ public class Stage1Manager : MonoBehaviour
     [SerializeField] protected Text[] StartText;
     [SerializeField] protected Text SkipText;
     [SerializeField] protected bool IsStart;
+    [SerializeField] protected int StageIndex;
     public bool GameEnd, IsStageHelpOn, IsClickHelp;
     public float ResultCount;
 
@@ -48,7 +49,7 @@ public class Stage1Manager : MonoBehaviour
         StartAnimSkipButton.onClick.AddListener(() => ClickStageStartAnimSkipButton());
         NextStageButton.onClick.AddListener(() => GoToNextStage());
         ReturnStageSelectButton.onClick.AddListener(() => ClickStageExitButton());
-        if (GameManager.Instance.IsSkipAble[0]) StartAnimSkipButtonObj.SetActive(true);
+        if (GameManager.Instance.IsSkipAble[StageIndex]) StartAnimSkipButtonObj.SetActive(true);
         else StartAnimSkipButtonObj.SetActive(false);
     }
     #region 스테이지 클리어 함수
@@ -97,7 +98,7 @@ public class Stage1Manager : MonoBehaviour
             NowFaidTime -= Time.deltaTime;
             yield return null;
         }
-        GameManager.Instance.IsSkipAble[0] = true;
+        GameManager.Instance.IsSkipAble[StageIndex] = true;
         GameStartPanelObj.SetActive(false);
         IsStart = true;
     }
@@ -139,7 +140,7 @@ public class Stage1Manager : MonoBehaviour
             while (GameHelpObj.transform.position.x > 0)
             {
                 TargetPos = new Vector3(-0.1f, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
-                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.1f);
+                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.06f);
                 yield return WFSR;
                 print(TargetPos);
             }
@@ -148,14 +149,14 @@ public class Stage1Manager : MonoBehaviour
         }
         else
         {
-            while (GameHelpObj.transform.position.x < 26)
+            while (GameHelpObj.transform.position.x < 13)
             {
-                TargetPos = new Vector3(26.1f, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
-                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.1f);
+                TargetPos = new Vector3(13.1f, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
+                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.06f);
                 yield return WFSR;
                 print(TargetPos);
             }
-            GameHelpObj.transform.position = new Vector3(26, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
+            GameHelpObj.transform.position = new Vector3(13, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
             IsStageHelpOn = false;
         }
     }
@@ -174,7 +175,12 @@ public class Stage1Manager : MonoBehaviour
         GameStartPanelObj.SetActive(false);
         IsStart = true;
     }
-    protected virtual void ClickStageExitButton() => SceneManager.LoadScene(1);
-    protected virtual void ClickStageRestartButton() => SceneManager.LoadScene(2);
-    protected virtual void GoToNextStage() => SceneManager.LoadScene(3);
+    protected virtual void ClickStageExitButton() => SceneMove(1);
+    protected virtual void ClickStageRestartButton() => SceneMove(2);
+    protected virtual void GoToNextStage() => SceneMove(3);
+    protected virtual void SceneMove(int SceneIndex)
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneIndex);
+    }
 }

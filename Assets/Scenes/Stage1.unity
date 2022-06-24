@@ -1501,6 +1501,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageClearCount: 0
   IsSkipAble: 000000000000
+  ClickParticle: {fileID: 5944229171388463868, guid: 82f787bf65fa51f4a9c5f7926167a378, type: 3}
+  MainCam: {fileID: 1849110425}
 --- !u!4 &465664742
 Transform:
   m_ObjectHideFlags: 0
@@ -4439,6 +4441,11 @@ MonoBehaviour:
   - {fileID: 2064608286}
   - {fileID: 1726271485}
   SkipText: {fileID: 2027988436}
+  IsStart: 0
+  StageIndex: 0
+  GameEnd: 0
+  IsStageHelpOn: 0
+  IsClickHelp: 0
   ResultCount: 0
 --- !u!4 &1514263596
 Transform:
