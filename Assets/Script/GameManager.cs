@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Instance = this;
+        MainCam = Camera.main;
         DontDestroyOnLoad(this);
     }
 
