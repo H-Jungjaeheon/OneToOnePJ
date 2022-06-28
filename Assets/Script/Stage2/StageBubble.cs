@@ -6,34 +6,14 @@ public class StageBubble : MonoBehaviour
 {
     [Header("스테이지 물방울 효과 오브젝트")]
     [SerializeField] private GameObject[] StageBackBubble;
-    [SerializeField] private GameObject BGs;
     [Header("물방울 효과 이동 관련 변수")]
     [SerializeField] private float BubbleRightSpeed;
-    [SerializeField] private float BubbleUpSpeed, BGMoveSpeed;
-
+    [SerializeField] private float BubbleUpSpeed;
     private RectTransform BGRT;
-
-    private void Start()
-    {
-        StartSetting();
-    }
 
     void Update()
     {
         BubbleMove();
-        BGMove();
-    }
-    private void StartSetting() => BGRT = BGs.GetComponent<RectTransform>();
-    private void BGMove()
-    {
-        if (!Stage2Manager.Instance.IsClickHelp)
-        {
-            BGRT.anchoredPosition += new Vector2(BGMoveSpeed, 0f);
-            if (BGRT.anchoredPosition.x >= 2960)
-            {
-                BGRT.anchoredPosition = new Vector3(0, 0, 0);
-            }
-        }
     }
     private void BubbleMove()
     {

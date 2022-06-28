@@ -142,7 +142,6 @@ public class Stage1Manager : MonoBehaviour
                 TargetPos = new Vector3(-0.1f, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
                 GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.06f);
                 yield return WFSR;
-                print(TargetPos);
             }
             GameHelpObj.transform.position = new Vector3(0, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
             IsStageHelpOn = true;
@@ -152,9 +151,8 @@ public class Stage1Manager : MonoBehaviour
             while (GameHelpObj.transform.position.x < 13)
             {
                 TargetPos = new Vector3(13.1f, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
-                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.06f);
+                GameHelpObj.transform.position = Vector3.Lerp(GameHelpObj.transform.position, TargetPos, 0.09f);
                 yield return WFSR;
-                print(TargetPos);
             }
             GameHelpObj.transform.position = new Vector3(13, GameHelpObj.transform.position.y, GameHelpObj.transform.position.z);
             IsStageHelpOn = false;

@@ -1804,12 +1804,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   HitSpeed: 250
-  MinMoveIndex: 1
-  MaxMoveIndex: 2.5
+  MinMoveIndex: 0.6
+  MaxMoveIndex: 2
   IsMoveCompleat: 0
   IsUping: 0
   IsDowning: 0
-  IsGameTimeHalf: 0
+  IsMoving: 0
   IsHit: 0
 --- !u!1 &6883175488563630302
 GameObject:

@@ -12,7 +12,7 @@ public class Fish : MonoBehaviour
     [SerializeField] private float MinMoveIndex, MaxMoveIndex;
     [Header("랜덤 움직임 실행 판별")]
     [SerializeField] private bool IsMoveCompleat;
-    [SerializeField] private bool IsUping, IsDowning, IsGameTimeHalf;
+    [SerializeField] private bool IsUping, IsDowning, IsMoving;
     private Vector3 TargetPos;
     private int RandMove;
     private float MoveIndex, NowMoveIndex, NowYPos;
@@ -20,6 +20,7 @@ public class Fish : MonoBehaviour
 
     private Rigidbody2D rigid;
     public bool IsHit;
+
     private void Start()
     {
         StartSetting();
@@ -34,10 +35,11 @@ public class Fish : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         MoveIndex = Random.Range(MinMoveIndex, MaxMoveIndex);
         NowYPos = gameObject.transform.position.y;
-        RandMove = Random.Range(0, 2);
-        if(Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2)
+        int IsRandMove = Random.Range(0, 2);
+        if(IsRandMove == 1)
         {
-            IsGameTimeHalf = true;
+            RandMove = Random.Range(0, 2);
+            IsMoving = true;
         }
     }
     private void Move()
@@ -45,7 +47,7 @@ public class Fish : MonoBehaviour
         NowMoveIndex += Time.deltaTime;
         if (!IsHit)
             transform.position += new Vector3(Speed * Time.deltaTime, 0, 0);
-        if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2 && IsGameTimeHalf)
+        if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2 && IsMoving)
         {
             if(RandMove == 0)
             {

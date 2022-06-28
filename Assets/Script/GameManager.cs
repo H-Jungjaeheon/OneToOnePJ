@@ -23,12 +23,10 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        MainCam = Camera.main;
         DontDestroyOnLoad(this);
     }
 
@@ -39,6 +37,7 @@ public class GameManager : MonoBehaviour
     }
     private void MouseClickParticle()
     {
+        MainCam = Camera.main;
         MousePos = Input.mousePosition;
         MousePos = MainCam.ScreenToWorldPoint(MousePos) + new Vector3(0, 0, 10);
         if (Input.GetMouseButtonDown(0))
