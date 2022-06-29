@@ -82,13 +82,11 @@ public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     {
         if (collision.gameObject.CompareTag("Guys") && collision.gameObject.GetComponent<Stage1Guy>().GuyIndex == HatIndex && IsDraging == false)
         {
-            //맞음 효과음 출력
             Stage1GM.GetComponent<Stage1Manager>().ResultCount++;
             Destroy(gameObject);
         }
         else
         {
-            //틀림 효과음 출력
         }
     }
 }
