@@ -12,9 +12,11 @@ public class StageSelectManager : MonoBehaviour
     [SerializeField] private Button StagePassButtonLeft;
     [SerializeField] private Button StagePassButtonRight, SettingButton, SettingCloseButton, ReturnTitleButton;
     [SerializeField] private Button[] StageLockButton, GoStageButton;
+    [SerializeField] private Sprite ClearedGoStageButtonImage, StageButtonHLImage, StageButtonPSImage;
     [Header("오브젝트 모음")]
     [SerializeField] private GameObject ReturnTitleObj, GameSettingPopUp;
-    [SerializeField] private GameObject[] BookObjs, StageLockObj, PositionObj, SettingPositionObj;
+    [SerializeField] private GameObject[] BookObjs, StageLockObj, PositionObj;
+    [SerializeField] private Sprite[] ChangeBookObjsImage;
     [Header("씬 이동 연출 이미지")]
     [SerializeField] private Image ReturnToTitleImage;
     [Header("스테이지 잠금 연출 오브젝트")]
@@ -40,12 +42,15 @@ public class StageSelectManager : MonoBehaviour
     {
         for (int a = 0; a < 6; a++)
         {
-            BookObjs[a].transform.position = new Vector3(BookObjs[a].transform.position.x, BookObjs[a].transform.position.y + Mathf.Sin(Time.time * 1f) * 0.1f, 0);
+            BookObjs[a].transform.position = new Vector3(BookObjs[a].transform.position.x, BookObjs[a].transform.position.y + Mathf.Sin(Time.time * 1f) * 0.002f, 0);
         }
     }
 
     private void StartSetting()
     {
+        SpriteState SS = new SpriteState();
+        SS.highlightedSprite = StageButtonHLImage;
+        SS.pressedSprite = StageButtonPSImage;
         int StageLockCount = 0;
         IsStarting = false;
         StageSelectCount = 0;
@@ -63,6 +68,13 @@ public class StageSelectManager : MonoBehaviour
         {
             int StageIndex = a;
             GoStageButton[a].onClick.AddListener(() => StartCoroutine(GameStartFaid(1, StageIndex + 1)));
+            if (GameManager.Instance.SD[a].IsClear)
+            {
+                Image NewBookImage = BookObjs[a].transform.Find($"Stage{a+1}Book").gameObject.GetComponent<Image>();
+                NewBookImage.sprite = ChangeBookObjsImage[a];
+                GoStageButton[a].GetComponent<Image>().sprite = ClearedGoStageButtonImage;
+                GoStageButton[a].GetComponent<Button>().spriteState = SS;
+            }
         }
         while (true)
         {
@@ -120,7 +132,7 @@ public class StageSelectManager : MonoBehaviour
     {
         if (IsSettingUp == false)
         {
-            GameSettingPopUp.transform.DOMove(SettingPositionObj[0].transform.position, 0.7f).SetEase(Ease.InFlash);
+            //GameSettingPopUp.transform.DOMove(SettingPositionObj[0].transform.position, 0.7f).SetEase(Ease.InFlash);
             IsSettingUp = true;
         }
     }
@@ -128,7 +140,7 @@ public class StageSelectManager : MonoBehaviour
     {
         if (IsSettingUp == true)
         {
-            GameSettingPopUp.transform.DOMove(SettingPositionObj[1].transform.position, 0.7f).SetEase(Ease.InFlash);
+            //GameSettingPopUp.transform.DOMove(SettingPositionObj[1].transform.position, 0.7f).SetEase(Ease.InFlash);
             IsSettingUp = false;
         }
     }

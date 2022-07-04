@@ -13,6 +13,7 @@ public class Fish : MonoBehaviour
     [Header("랜덤 움직임 실행 판별")]
     [SerializeField] private bool IsMoveCompleat;
     [SerializeField] private bool IsUping, IsDowning, IsMoving;
+    private bool IsEnd, IsHalfTimes;
     private Vector3 TargetPos;
     private int RandMove;
     private float MoveIndex, NowMoveIndex, NowYPos;
@@ -41,13 +42,17 @@ public class Fish : MonoBehaviour
             RandMove = Random.Range(0, 2);
             IsMoving = true;
         }
+        if(Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2)
+        {
+            IsHalfTimes = true;
+        }
     }
     private void Move()
     {
         NowMoveIndex += Time.deltaTime;
         if (!IsHit)
             transform.position += new Vector3(Speed * Time.deltaTime, 0, 0);
-        if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && Stage2Manager.Instance.ResultCount >= Stage2Manager.Instance.MaxResultCount / 2 && IsMoving)
+        if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && IsHalfTimes && IsMoving && !IsEnd)
         {
             if(RandMove == 0)
             {
@@ -96,7 +101,10 @@ public class Fish : MonoBehaviour
     private void GameEnd()
     {
         if (Stage2Manager.Instance.GameEnd && !IsHit)
+        {
             StartCoroutine(FishHitAnim());
+            IsEnd = true;
+        }
     }
     private IEnumerator FishHitAnim()
     {

@@ -1,0 +1,184 @@
+{
+	"Version": 3,
+	"Meta": {
+		"Duration": 3.167,
+		"Fps": 30.0,
+		"Loop": true,
+		"AreBeziersRestricted": true,
+		"CurveCount": 8,
+		"TotalSegmentCount": 20,
+		"TotalPointCount": 50,
+		"UserDataCount": 0,
+		"TotalUserDataSize": 0
+	},
+	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "ParamEyeLOpen",
+			"Segments": [
+				0,
+				1,
+				1,
+				0.111,
+				1,
+				0.222,
+				1,
+				0.333,
+				1,
+				1,
+				0.422,
+				1,
+				0.511,
+				0,
+				0.6,
+				0,
+				1,
+				1.211,
+				0,
+				1.822,
+				0,
+				2.433,
+				0,
+				1,
+				2.511,
+				0,
+				2.589,
+				1,
+				2.667,
+				1,
+				0,
+				3.167,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamBrowLY",
+			"Segments": [
+				0,
+				0,
+				1,
+				0.044,
+				0,
+				0.089,
+				0,
+				0.133,
+				0,
+				1,
+				0.211,
+				0,
+				0.289,
+				1,
+				0.367,
+				1,
+				1,
+				0.978,
+				1,
+				1.589,
+				1,
+				2.2,
+				1,
+				1,
+				2.267,
+				1,
+				2.333,
+				0,
+				2.4,
+				0,
+				0,
+				3.167,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Param2",
+			"Segments": [
+				0,
+				0,
+				0,
+				2,
+				1,
+				0,
+				3.167,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamMouthForm",
+			"Segments": [
+				0,
+				0,
+				1,
+				0.1,
+				0,
+				0.2,
+				-1,
+				0.3,
+				-1,
+				1,
+				0.867,
+				-1,
+				1.433,
+				-1,
+				2,
+				-1,
+				1,
+				2.144,
+				-1,
+				2.289,
+				0,
+				2.433,
+				0,
+				0,
+				3.167,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamHairFront",
+			"Segments": [
+				0,
+				-1,
+				0,
+				3.167,
+				-1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamHairSide",
+			"Segments": [
+				0,
+				1,
+				0,
+				3.167,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamHairBack",
+			"Segments": [
+				0,
+				-1,
+				0,
+				3.167,
+				-1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Param",
+			"Segments": [
+				0,
+				1,
+				0,
+				3.167,
+				1
+			]
+		}
+	]
+}

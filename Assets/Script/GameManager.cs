@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; set; }
     public int StageClearCount;
-    public bool[] IsSkipAble;
+    public StageData[] SD;
     [SerializeField] private GameObject ClickParticle;
     [SerializeField] private Camera MainCam;
     [SerializeField] private Vector3 MousePos;

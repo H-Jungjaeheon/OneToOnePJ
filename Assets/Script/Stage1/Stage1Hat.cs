@@ -11,7 +11,7 @@ public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     [SerializeField] private float RotationZ;
     [SerializeField] private float RotateSpeed, MaxRotateR, MaxRotateL;
     [Header("드래그 판별 / 모자 인덱스")]
-    public bool IsDraging;
+    public bool IsDraging, IsWrong;
     public int HatIndex;
     public static Vector2 defaultposition;
     [SerializeField] private Vector3 NowMousePos;
@@ -72,9 +72,10 @@ public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     }
     private IEnumerator DragEnd()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.02f);
         transform.position = defaultposition;
-        yield return new WaitForSeconds(0.4f);
+        IsWrong = false;
+        yield return new WaitForSeconds(0.1f);
         Answering = false;
         IsReturning = false;
     }
@@ -84,9 +85,6 @@ public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
         {
             Stage1GM.GetComponent<Stage1Manager>().ResultCount++;
             Destroy(gameObject);
-        }
-        else
-        {
         }
     }
 }

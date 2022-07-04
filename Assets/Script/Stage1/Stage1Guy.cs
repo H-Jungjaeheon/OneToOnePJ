@@ -17,18 +17,32 @@ public class Stage1Guy : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<Stage1Hat>().IsDraging == false && collision.gameObject.GetComponent<Stage1Hat>().HatIndex == GuyIndex)
         {
-            print("정답 파티클");
+            print("정답 소리");
             Instantiate(ResultParticle, new Vector3(transform.position.x, transform.position.y + 0.5f, 0), ResultParticle.transform.rotation);
             StartCoroutine(HatAnim());
+        }
+        else if (collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<Stage1Hat>().IsDraging == false && collision.gameObject.GetComponent<Stage1Hat>().HatIndex != GuyIndex && collision.gameObject.GetComponent<Stage1Hat>().IsWrong == false)
+        {
+            collision.gameObject.GetComponent<Stage1Hat>().IsWrong = true;
+            print("오답 소리");
+            StartCoroutine(WrongHatAnim());
         }
     }
     #endregion
     IEnumerator HatAnim()
     {
+        animator.SetBool("IsBad", false);
         animator.SetBool("IsCompleat", true);
         yield return new WaitForSeconds(3);
         animator.SetBool("IsCompleat", false);
         animator.SetBool("IsHat", true);
+        yield return null;
+    }
+    IEnumerator WrongHatAnim()
+    {
+        animator.SetBool("IsBad", true);
+        yield return new WaitForSeconds(3);
+        animator.SetBool("IsBad", false);
         yield return null;
     }
 }

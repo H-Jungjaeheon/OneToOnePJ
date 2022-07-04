@@ -49,7 +49,7 @@ public class Stage1Manager : MonoBehaviour
         StartAnimSkipButton.onClick.AddListener(() => ClickStageStartAnimSkipButton());
         NextStageButton.onClick.AddListener(() => GoToNextStage());
         ReturnStageSelectButton.onClick.AddListener(() => ClickStageExitButton());
-        if (GameManager.Instance.IsSkipAble[StageIndex]) StartAnimSkipButtonObj.SetActive(true);
+        if (GameManager.Instance.SD[StageIndex].IsSkip) StartAnimSkipButtonObj.SetActive(true);
         else StartAnimSkipButtonObj.SetActive(false);
     }
     #region 스테이지 클리어 함수
@@ -70,6 +70,7 @@ public class Stage1Manager : MonoBehaviour
         GameClearBalloonObj.SetActive(true);
         yield return new WaitForSeconds(7f);
         GameManager.Instance.StageClearCount++;
+        GameManager.Instance.SD[StageIndex].IsClear = true;
         SameBlackBG.SetActive(true);
         GameClearObj.transform.DOScale(1, 0.8f).SetEase(Ease.InCubic);
     }
@@ -98,7 +99,7 @@ public class Stage1Manager : MonoBehaviour
             NowFaidTime -= Time.deltaTime;
             yield return null;
         }
-        GameManager.Instance.IsSkipAble[StageIndex] = true;
+        GameManager.Instance.SD[StageIndex].IsSkip = true;
         GameStartPanelObj.SetActive(false);
         IsStart = true;
     }

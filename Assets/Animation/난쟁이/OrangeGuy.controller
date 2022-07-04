@@ -118,19 +118,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IsHat
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IsBad
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -152,7 +152,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: "\uC8FC\uD669_\uAE30\uBCF8"
-  m_Speed: 1
+  m_Speed: 0.75
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5544530124701188918}
@@ -241,7 +241,7 @@ AnimatorStateMachine:
     m_Position: {x: 500, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6061619266906609480}
-    m_Position: {x: 480, y: 110, z: 0}
+    m_Position: {x: 220, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4733057321159322270}
     m_Position: {x: 345.74158, y: -43.105774, z: 0}
