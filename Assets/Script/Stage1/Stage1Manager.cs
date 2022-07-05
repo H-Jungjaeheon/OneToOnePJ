@@ -26,6 +26,7 @@ public class Stage1Manager : MonoBehaviour
     [SerializeField] protected int StageIndex;
     public bool GameEnd, IsStageHelpOn, IsClickHelp;
     public float ResultCount;
+    protected private bool StartAnims;
 
     protected virtual void Start()
     {
@@ -35,6 +36,14 @@ public class Stage1Manager : MonoBehaviour
     private void FixedUpdate()
     {
         IsStageClear();
+        StartPanelAnims();
+    }
+    protected virtual void StartPanelAnims()
+    {
+        if (StartAnims)
+        {
+            StartPanelObj.transform.position = Vector3.Lerp(StartPanelObj.transform.position, StartPanelPos.transform.position, 0.05f);
+        }
     }
     protected virtual void StartSetting()
     {
@@ -78,8 +87,8 @@ public class Stage1Manager : MonoBehaviour
     #region 시작 애니메이션
     protected virtual IEnumerator StartAnim(float FaidTime)
     {
+        StartAnims = true;
         float NowFaidTime = FaidTime;
-        StartPanelObj.transform.DOMove(StartPanelPos.transform.position, 1.5f);
         yield return new WaitForSeconds(1.8f);
         Color color = StartFaidBackGround.color;
         Color color2 = StartPanelImage.color;

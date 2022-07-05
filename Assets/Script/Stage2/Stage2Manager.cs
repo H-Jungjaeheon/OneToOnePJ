@@ -43,6 +43,7 @@ class Stage2Manager : Stage1Manager
         FishSpawn();
         IsEnd();
         HeartAnim();
+        StartPanelAnims();
     }
 
     /// <summary>

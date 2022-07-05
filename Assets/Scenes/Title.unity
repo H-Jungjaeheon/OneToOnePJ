@@ -1928,8 +1928,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StageClearCount: 0
-  IsSkipAble: 000000000000
-  SD: []
+  SD:
+  - IsSkip: 0
+    IsClear: 0
+  - IsSkip: 0
+    IsClear: 0
+  - IsSkip: 0
+    IsClear: 0
+  - IsSkip: 0
+    IsClear: 0
+  - IsSkip: 0
+    IsClear: 0
+  - IsSkip: 0
+    IsClear: 0
   ClickParticle: {fileID: 5944229171388463868, guid: 82f787bf65fa51f4a9c5f7926167a378, type: 3}
   MainCam: {fileID: 1479109405}
   MousePos: {x: 0, y: 0, z: 0}

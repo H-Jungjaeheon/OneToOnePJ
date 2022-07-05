@@ -43,17 +43,23 @@ public class MovingObjs : MonoBehaviour
         }
         if(IsSnow)
         {
-            for (int BubbleIndex = 0; BubbleIndex < 2; BubbleIndex++)
+            for (int BubbleIndex = 0; BubbleIndex < 2; BubbleIndex++) // -1 0
             {
-                if (MovingObj[BubbleIndex].transform.position.x <= -1 && IsLeft)
+                if (MovingObj[BubbleIndex].transform.position.x >= -1 && !IsLeft)
                 {
                     MovingObj[BubbleIndex].transform.position += new Vector3(-MovingObjRightSpeed * Time.deltaTime, -MovingObjUpSpeed * Time.deltaTime, 0);
-                    IsLeft = false;
+                    if(MovingObj[BubbleIndex].transform.position.x <= -1)
+                    {
+                        IsLeft = true;
+                    }
                 }
-                else if (MovingObj[BubbleIndex].transform.position.x >= 0 && !IsLeft)
+                else if (MovingObj[BubbleIndex].transform.position.x <= 0 && IsLeft)
                 {
                     MovingObj[BubbleIndex].transform.position += new Vector3(MovingObjRightSpeed * Time.deltaTime, -MovingObjUpSpeed * Time.deltaTime, 0);
-                    IsLeft = true;
+                    if (MovingObj[BubbleIndex].transform.position.x >= 0)
+                    {
+                        IsLeft = false;
+                    }
                 }
                 if (MovingObj[BubbleIndex].transform.position.y <= -10.16f)
                 {
