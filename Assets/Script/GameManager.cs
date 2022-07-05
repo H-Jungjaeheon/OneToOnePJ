@@ -42,7 +42,8 @@ public class GameManager : MonoBehaviour
         MousePos = MainCam.ScreenToWorldPoint(MousePos) + new Vector3(0, 0, 10);
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(ClickParticle, MousePos, ClickParticle.transform.rotation);
+            var par = Instantiate(ClickParticle, MousePos, ClickParticle.transform.rotation);
+            Destroy(par, 2f);
         }
     }
 }

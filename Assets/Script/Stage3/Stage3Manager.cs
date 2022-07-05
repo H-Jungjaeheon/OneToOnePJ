@@ -6,9 +6,12 @@ using UnityEngine.SceneManagement;
 public class Stage3Manager : Stage1Manager
 {
     public static Stage3Manager Instance { get; set; }
+    [SerializeField] private int MaxRandCount;
 
     private void FixedUpdate()
     {
+        IsStageClear();
+        StartPanelAnims();
     }
 
     /// <summary>
@@ -32,7 +35,7 @@ public class Stage3Manager : Stage1Manager
             yield return null;
         }
         yield return WFS;
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene("Stage3");
     }
 
     /// <summary>
@@ -42,8 +45,13 @@ public class Stage3Manager : Stage1Manager
     {
         base.StartSetting();
         Instance = this;
+        MaxRandCount = Random.Range(1, 6);
     }
 
+    private void IsStageClear()
+    {
+        ProgressImage.fillAmount = ResultCount / 4;
+    }
     /// <summary>
     /// 스테이지 버튼 모음
     /// </summary>
