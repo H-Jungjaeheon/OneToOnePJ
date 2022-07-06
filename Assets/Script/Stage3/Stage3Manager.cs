@@ -26,7 +26,7 @@ public class Stage3Manager : Stage1Manager
     [Header("완료 버튼")]
     [SerializeField] private Button GiveCompleteButton;
     public int MaxMatchesCount, RoundCount, FailCount, SuccesCount; //줘야하는 성냥 개수, 현재 라운드, 실패 카운트, 성공 카운트
-    public bool IsFail, IsSuccess, CustomerArrival, IsMatchsClick;
+    public bool IsFail, IsSuccess, CustomerArrival, IsMatchsClick, IsTake, IsHandIn;
 
     private void FixedUpdate()
     {
@@ -34,6 +34,10 @@ public class Stage3Manager : Stage1Manager
         StartPanelAnims();
         MouseRayCast();
         MatchMove();
+    }
+    public void MatchesCountPlus()
+    {
+        GiveMatchesCount++;
     }
     private void MatchMove()
     {
@@ -70,16 +74,24 @@ public class Stage3Manager : Stage1Manager
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit))
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0);
+            if(hit.collider != null && hit.collider.gameObject.CompareTag("Matchs"))
             {
-                if (hit.collider.gameObject.CompareTag("Matchs"))
-                {
-                    IsMatchsClick = true;
-                }
+                GiveMatchObj.SetActive(true);
+                IsMatchsClick = true;
             }
         }
+        if (Input.GetMouseButtonUp(0))
+            StartCoroutine(ReturnStartPosition());
+    }
+    private IEnumerator ReturnStartPosition()
+    { 
+        IsHandIn = true;
+        yield return new WaitForSeconds(0.1f);
+        IsHandIn = false;
+        GiveMatchObj.transform.position = new Vector3(0, 0, 0);
+        GiveMatchObj.SetActive(false);
     }
     /// <summary>
     /// 스테이지 시작 세팅 함수
@@ -94,12 +106,13 @@ public class Stage3Manager : Stage1Manager
 
     private void CustomerCommingEvent()
     {
-        if(RoundCount < 4 && !GameEnd)
+        if (RoundCount < 4 && !GameEnd)
         {
             int CustomersRandCount = Random.Range(0, 3);
             MaxMatchesCount = Random.Range(1, 6);
             RoundCount++;
-            Customers.Add(Instantiate(CustomersObj[CustomersRandCount], new Vector3(-12.9f, -2.12f, 0), CustomersObj[CustomersRandCount].transform.rotation));
+            //Customers.Add(Instantiate(CustomersObj[CustomersRandCount], new Vector3(-12.9f, -2.12f, 0), CustomersObj[CustomersRandCount].transform.rotation));
+            Instantiate(CustomersObj[CustomersRandCount], new Vector3(-12.9f, -2.12f, 0), CustomersObj[CustomersRandCount].transform.rotation);
         }
     }
 
@@ -110,7 +123,7 @@ public class Stage3Manager : Stage1Manager
         {
             GameEnd = true;
             FailCount++;
-            StartCoroutine(GameOver(6));
+            StartCoroutine(GameOver(3));
         }
         else if (ResultCount == 2)
         {
@@ -122,6 +135,7 @@ public class Stage3Manager : Stage1Manager
 
     private void Discrimination() //정 / 오답 판별
     {
+        IsTake = false;
         if (CustomerArrival && !GameEnd)
         {
             if (MaxMatchesCount == GiveMatchesCount)

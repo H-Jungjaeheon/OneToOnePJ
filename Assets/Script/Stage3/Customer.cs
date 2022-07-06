@@ -50,6 +50,7 @@ public class Customer : MonoBehaviour
             HandObj.transform.position = Vector3.Lerp(HandObj.transform.position, new Vector3(5, 3.05f, 0), 0.05f);
             if(HandObj.transform.position.y <= 3.1)
             {
+                Stage3Manager.Instance.IsTake = true;
                 Stage3Manager.Instance.CustomerArrival = true;
                 animator.SetBool("IsArrival", true);
                 IsOrder = true;
