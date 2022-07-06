@@ -27,6 +27,10 @@ public class StageSelectManager : MonoBehaviour
     [SerializeField] private bool IsSettingUp, IsLocking, IsStarting;
     #endregion
 
+    [Header("사운드 모음")]
+    [Space(20)]
+    [SerializeField] private AudioClip BasicButtonClickClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -130,6 +134,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private void SettingPopUp()
     {
+        BasicButtonClickSound();
         if (IsSettingUp == false)
         {
             //GameSettingPopUp.transform.DOMove(SettingPositionObj[0].transform.position, 0.7f).SetEase(Ease.InFlash);
@@ -138,6 +143,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private void SettingClose()
     {
+        BasicButtonClickSound();
         if (IsSettingUp == true)
         {
             //GameSettingPopUp.transform.DOMove(SettingPositionObj[1].transform.position, 0.7f).SetEase(Ease.InFlash);
@@ -146,6 +152,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private IEnumerator ReturnToTitle(float FaidTime)
     {
+        BasicButtonClickSound();
         if (IsSettingUp == false)
         {
             ReturnTitleObj.SetActive(true);
@@ -164,6 +171,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private void StagePassL()
     {
+        BasicButtonClickSound();
         if ((StageSelectCount - 1) >= 0 && IsSettingUp == false)
         {
             StageSelectCount--;
@@ -172,7 +180,8 @@ public class StageSelectManager : MonoBehaviour
         }
     }
     private void StagePassR()
-    { 
+    {
+        BasicButtonClickSound();
         if ((StageSelectCount + 1) <= 5 && IsSettingUp == false)
         {
             StageSelectCount++;
@@ -180,4 +189,5 @@ public class StageSelectManager : MonoBehaviour
             BookObjs[StageSelectCount - 1].transform.DOMove(PositionObj[0].transform.position, 1).SetEase(Ease.InBack);
         }
     }
+    private void BasicButtonClickSound() => SoundManager.Instance.SFXPlay("BasicButtonClick", BasicButtonClickClip);
 }

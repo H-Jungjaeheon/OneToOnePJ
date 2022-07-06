@@ -30,4 +30,5 @@ public class LittleMatchsSellerGirl : MonoBehaviour
         animator.SetBool("IsBad", false);
         animator.SetBool("IsGood", false);
     }
+
 }

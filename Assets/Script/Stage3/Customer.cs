@@ -10,6 +10,8 @@ public class Customer : MonoBehaviour
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float UpDownSpeed;
     [SerializeField] CubismRenderController rendererController;
+    private GameObject GoodSpeechBubble = Stage3Manager.Instance.MatchesCountObj[5];
+    private GameObject BadSpeechBubble = Stage3Manager.Instance.MatchesCountObj[6];
     private bool IsUp, IsOrder, End;
     private Animator animator;
 
@@ -65,6 +67,7 @@ public class Customer : MonoBehaviour
             Stage3Manager.Instance.IsSuccess = false;
             animator.SetBool("IsArrival", false);
             animator.SetBool("IsGood", true);
+            GoodSpeechBubble.transform.DOScale(1, 0.6f);
             StartCoroutine(GoBack());
             Stage3Manager.Instance.ResultCount++;
         }
@@ -74,6 +77,7 @@ public class Customer : MonoBehaviour
             Stage3Manager.Instance.IsFail = false;
             animator.SetBool("IsArrival", false);
             animator.SetBool("IsBad", true);
+            BadSpeechBubble.transform.DOScale(1, 0.6f);
             StartCoroutine(GoBack());
         }
     }
@@ -82,7 +86,8 @@ public class Customer : MonoBehaviour
         float DestroyCount = 0;
 
         yield return new WaitForSeconds(2.5f);
-
+        GoodSpeechBubble.transform.DOScale(0, 0.2f);
+        BadSpeechBubble.transform.DOScale(0, 0.2f);
         animator.SetBool("IsGood", false);
         animator.SetBool("IsBad", false);
 

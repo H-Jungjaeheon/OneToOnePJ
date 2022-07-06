@@ -18,6 +18,9 @@ public class TitleManager : MonoBehaviour
     [SerializeField] private bool IsSettingUp; //설정 판별, 게임 시작 판별
     private Vector3 pos;
     #endregion
+    [Header("사운드 모음")]
+    [Space(20)]
+    [SerializeField] private AudioClip BasicButtonClickClip;
 
 
     void Start()
@@ -51,6 +54,7 @@ public class TitleManager : MonoBehaviour
 
     private IEnumerator GameStartCoroutine(float duration)
     {
+        BasicButtonClickSound();
         WaitForSeconds WFS = new WaitForSeconds(1f);
         if(IsSettingUp == false)
         {
@@ -86,6 +90,7 @@ public class TitleManager : MonoBehaviour
 
     private void GameSetting()
     {
+        BasicButtonClickSound();
         if (IsSettingUp == false)
         {
             GameSettingPopUp.transform.DOScale(1, 0);
@@ -94,6 +99,7 @@ public class TitleManager : MonoBehaviour
     }
     private void GameSettingClose()
     {
+        BasicButtonClickSound();
         if (IsSettingUp == true)
         {
             GameSettingPopUp.transform.DOScale(0, 0);
@@ -103,10 +109,12 @@ public class TitleManager : MonoBehaviour
     }
     private void SettingOnOff(bool IsSettingOn)
     {
+        BasicButtonClickSound();
         if (IsSettingOn)
             CreditObj.SetActive(false);
         else
             CreditObj.SetActive(true);
     }
     #endregion
+    private void BasicButtonClickSound() => SoundManager.Instance.SFXPlay("BasicButtonClick", BasicButtonClickClip);
 }

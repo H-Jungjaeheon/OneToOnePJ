@@ -55,7 +55,7 @@ public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
     void IDragHandler.OnDrag(PointerEventData eventData)//드래그중일 때
     {
-        if(!Answering && !IsReturning)
+        if (!Answering && !IsReturning)
         {
             IsDraging = true;
             transform.position = NowMousePos + new Vector3(0,0,10);

@@ -41,9 +41,7 @@ public class Stage1Manager : MonoBehaviour
     protected virtual void StartPanelAnims()
     {
         if (StartAnims)
-        {
             StartPanelObj.transform.position = Vector3.Lerp(StartPanelObj.transform.position, StartPanelPos.transform.position, 0.05f);
-        }
     }
     protected virtual void StartSetting()
     {
