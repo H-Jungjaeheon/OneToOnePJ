@@ -16,6 +16,7 @@ public class Customer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rendererController.SortingMode = CubismSortingMode.BackToFrontZ;
         animator = GetComponent<Animator>();
     }
 
@@ -64,6 +65,7 @@ public class Customer : MonoBehaviour
             animator.SetBool("IsArrival", false);
             animator.SetBool("IsGood", true);
             StartCoroutine(GoBack());
+            Stage3Manager.Instance.ResultCount++;
         }
         else if (Stage3Manager.Instance.IsFail)
         {

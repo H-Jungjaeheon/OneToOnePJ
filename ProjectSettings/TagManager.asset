@@ -9,6 +9,9 @@ TagManager:
   - TheLittleMermaid
   - Fish
   - ObjDestroy
+  - Hand
+  - Match
+  - Matchs
   layers:
   - Default
   - TransparentFX
