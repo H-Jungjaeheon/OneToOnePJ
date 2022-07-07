@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Stage4Manager : Stage1Manager
 {
-    
+    public static Stage3Manager Instance { get; set; }
 }
