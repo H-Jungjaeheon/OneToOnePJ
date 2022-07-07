@@ -8,6 +8,11 @@ public class Stage1Guy : MonoBehaviour
     [SerializeField] private GameObject ResultParticle; //정답일 때의 출력할 파티클
     [SerializeField] private Animator animator;
 
+    [Header("사운드 모음")]
+    [Space(20)]
+    [SerializeField] protected AudioClip GoodClip;
+    [SerializeField] protected AudioClip BadClip;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -17,14 +22,14 @@ public class Stage1Guy : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<Stage1Hat>().IsDraging == false && collision.gameObject.GetComponent<Stage1Hat>().HatIndex == GuyIndex)
         {
-            print("정답 소리");
+            GoodSound();
             Instantiate(ResultParticle, new Vector3(transform.position.x, transform.position.y + 0.5f, 0), ResultParticle.transform.rotation);
             StartCoroutine(HatAnim());
         }
         else if (collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<Stage1Hat>().IsDraging == false && collision.gameObject.GetComponent<Stage1Hat>().HatIndex != GuyIndex && collision.gameObject.GetComponent<Stage1Hat>().IsWrong == false)
         {
             collision.gameObject.GetComponent<Stage1Hat>().IsWrong = true;
-            print("오답 소리");
+            BadSound();
             StartCoroutine(WrongHatAnim());
         }
     }
@@ -45,4 +50,7 @@ public class Stage1Guy : MonoBehaviour
         animator.SetBool("IsBad", false);
         yield return null;
     }
+
+    protected void GoodSound() => SoundManager.Instance.SFXPlay("Good", GoodClip);
+    protected void BadSound() => SoundManager.Instance.SFXPlay("Bad", BadClip);
 }

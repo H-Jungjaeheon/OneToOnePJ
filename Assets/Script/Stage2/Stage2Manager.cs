@@ -36,6 +36,7 @@ class Stage2Manager : Stage1Manager
     [Header("하트 크기 상태 판별 변수")]
     [SerializeField] private bool IsBigging;
     #endregion
+    [SerializeField] private Image GameOverImage;
 
     private void FixedUpdate()
     {
@@ -122,12 +123,15 @@ class Stage2Manager : Stage1Manager
         float NowFaidTime = 0;
         yield return WFS;
         Color color = StartFaidBackGround.color;
+        Color color2 = GameOverImage.color;
         GameStartPanelObj.SetActive(true);
         GameOverSound();
         while (NowFaidTime < FaidTime)
         {
             color.a = NowFaidTime;
+            color2.a = NowFaidTime;
             StartFaidBackGround.color = color;
+            GameOverImage.color = color2;
             NowFaidTime += Time.deltaTime;
             yield return null;
         }
