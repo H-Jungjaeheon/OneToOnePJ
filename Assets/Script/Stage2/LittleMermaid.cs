@@ -15,6 +15,12 @@ public class LittleMermaid : MonoBehaviour
     private int MermaidMoveIndex;
     private Animator animator;
     private Rigidbody2D rigid;
+
+    [Header("사운드 모음")]
+    [Space(20)]
+    [SerializeField] private AudioClip UpDownButtonClickClip;
+    [SerializeField] private AudioClip FishHitClip;
+
     private void Awake()
     {
         StartSettings();
@@ -46,6 +52,7 @@ public class LittleMermaid : MonoBehaviour
     }
     private void MoveButtonClick(bool IsUpClick)
     {
+        UpDownButtonClickSound();
         if (!IsMoving && !IsUp && !IsDown && !Stage2Manager.Instance.GameEnd)
         {
             MoveTransForm = transform.position;
@@ -93,6 +100,7 @@ public class LittleMermaid : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Fish") && !IsHit && !Stage2Manager.Instance.GameEnd)
         {
+            FishHitSound();
             IsHit = true;
             rendererController.Opacity = 0.8f;
             CamShakeObj.GetComponent<CamShake>().VibrateForTime(0.4f);
@@ -118,4 +126,6 @@ public class LittleMermaid : MonoBehaviour
         yield return new WaitForSeconds(2f);
         rigid.velocity = Vector3.zero;
     }
+    private void UpDownButtonClickSound() => SoundManager.Instance.SFXPlay("UpDownButtonClick", UpDownButtonClickClip);
+    private void FishHitSound() => SoundManager.Instance.SFXPlay("FishHit", FishHitClip);
 }

@@ -21,6 +21,11 @@ public class Fish : MonoBehaviour
 
     private Rigidbody2D rigid;
     public bool IsHit;
+    private bool SoundOut;
+
+    [Header("사운드 모음")]
+    [Space(20)]
+    [SerializeField] private AudioClip FishRandMoveClip;
 
     private void Start()
     {
@@ -54,19 +59,30 @@ public class Fish : MonoBehaviour
             transform.position += new Vector3(Speed * Time.deltaTime, 0, 0);
         if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && IsHalfTimes && IsMoving && !IsEnd)
         {
-            if(RandMove == 0)
+            if (!SoundOut)
+            {
+                FishRandMoveClipSound();
+                SoundOut = true;
+            }
+            if (RandMove == 0)
             {
                 if(NowYPos + 2.15f <= 2.15f)
                     RandMoves(true);
                 else
+                {
                     RandMoves(false);
+                    SoundOut = false;
+                }
             }
             else
             {
                 if(NowYPos - 2.15f >= -2.15f)
                     RandMoves(false);
                 else
+                {
                     RandMoves(true);
+                    SoundOut = false;
+                }
             }
             if (TargetPos.y <= transform.position.y + 0.005f && IsUping || TargetPos.y >= transform.position.y - 0.005f && IsDowning)
             {
@@ -115,4 +131,5 @@ public class Fish : MonoBehaviour
         rigid.velocity = Vector3.zero;
         rigid.AddForce(Vector3.down * HitSpeed * 3);
     }
+    private void FishRandMoveClipSound() => SoundManager.Instance.SFXPlay("FishRandMove", FishRandMoveClip);
 }

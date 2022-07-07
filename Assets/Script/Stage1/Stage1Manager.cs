@@ -28,6 +28,12 @@ public class Stage1Manager : MonoBehaviour
     public float ResultCount;
     protected private bool StartAnims;
 
+    [Header("사운드 모음")]
+    [Space(20)]
+    [SerializeField] protected AudioClip BasicButtonClickClip;
+    [SerializeField] protected AudioClip GameClearClip;
+    [SerializeField] protected AudioClip GameOverClip;
+
     protected virtual void Start()
     {
         StartSetting();
@@ -80,6 +86,7 @@ public class Stage1Manager : MonoBehaviour
         GameManager.Instance.SD[StageIndex].IsClear = true;
         SameBlackBG.SetActive(true);
         GameClearObj.transform.DOScale(1, 0.8f).SetEase(Ease.InCubic);
+        GameClearSound();
     }
     #endregion
     #region 시작 애니메이션
@@ -116,7 +123,8 @@ public class Stage1Manager : MonoBehaviour
     /// </summary>
     protected virtual void ClickStagePauseButton()
     {
-        if(!GameEnd)
+        BasicButtonClickSound();
+        if (!GameEnd)
         {
             Time.timeScale = 0;
             GamePauseObj.SetActive(true);
@@ -125,12 +133,14 @@ public class Stage1Manager : MonoBehaviour
     }
     protected virtual void ClickStageContinueButton()
     {
+        BasicButtonClickSound();
         Time.timeScale = 1;
         GamePauseObj.SetActive(false);
         SameBlackBG.SetActive(false);
     }
     protected virtual void ClickStageHelpButton()
     {
+        BasicButtonClickSound();
         if (!IsStageHelpOn && !GameEnd)
         {
             Time.timeScale = 0;
@@ -168,7 +178,8 @@ public class Stage1Manager : MonoBehaviour
     }
     protected virtual void ClickStageHelpExitButton()
     {
-        if(IsStageHelpOn)
+        BasicButtonClickSound();
+        if (IsStageHelpOn)
         {
             Time.timeScale = 1;
             SameBlackBG.SetActive(false);
@@ -177,6 +188,7 @@ public class Stage1Manager : MonoBehaviour
     }
     protected virtual void ClickStageStartAnimSkipButton()
     {
+        BasicButtonClickSound();
         StopCoroutine(StartAnim(0));
         GameStartPanelObj.SetActive(false);
         IsStart = true;
@@ -189,4 +201,8 @@ public class Stage1Manager : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneIndex);
     }
+
+    protected void BasicButtonClickSound() => SoundManager.Instance.SFXPlay("BasicButtonClick", BasicButtonClickClip);
+    protected void GameClearSound() => SoundManager.Instance.SFXPlay("GameClear", GameClearClip);
+    protected void GameOverSound() => SoundManager.Instance.SFXPlay("GameOver", GameOverClip);
 }

@@ -28,6 +28,9 @@ public class Stage3Manager : Stage1Manager
     [HideInInspector]
     public bool IsFail, IsSuccess, CustomerArrival, IsTake, IsHandIn, IsMouseDown;
 
+    [SerializeField] protected AudioClip FailSoundClip;
+    [SerializeField] protected AudioClip SuccessSoundClip;
+
     private void FixedUpdate()
     {
         IsStageClear();
@@ -63,7 +66,8 @@ public class Stage3Manager : Stage1Manager
     }
     private IEnumerator MatchBoxAnim()
     {
-        while(MatchBox.transform.localScale.x >= 1)
+        BasicButtonClickSound();
+        while (MatchBox.transform.localScale.x >= 1)
         {
             MatchBox.transform.localScale -= new Vector3(Time.deltaTime, Time.deltaTime,0);
             yield return null;
@@ -106,7 +110,7 @@ public class Stage3Manager : Stage1Manager
             RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0);
             if (hit.collider != null && hit.collider.gameObject.CompareTag("Matchs"))
             {
-                if(!IsMouseDown)
+                if (!IsMouseDown)
                    StartCoroutine(MatchBoxAnim());
                 GiveMatchObj.SetActive(true);
                 IsMouseDown = true;
@@ -172,11 +176,13 @@ public class Stage3Manager : Stage1Manager
         {
             if (MaxMatchesCount == GiveMatchesCount)
             {
+                SuccessSound();
                 IsSuccess = true;
                 SuccesCount++;
             }
             else
             {
+                FailSound();
                 IsFail = true;
                 FailCount++;
             }
@@ -202,4 +208,7 @@ public class Stage3Manager : Stage1Manager
     protected override void ClickStageExitButton() => SceneMove(1);
     protected override void ClickStageRestartButton() => SceneMove(4);
     protected override void GoToNextStage() => SceneMove(5);
+
+    protected void FailSound() => SoundManager.Instance.SFXPlay("Fail", FailSoundClip);
+    protected void SuccessSound() => SoundManager.Instance.SFXPlay("Success", SuccessSoundClip);
 }

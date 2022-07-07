@@ -123,6 +123,7 @@ class Stage2Manager : Stage1Manager
         yield return WFS;
         Color color = StartFaidBackGround.color;
         GameStartPanelObj.SetActive(true);
+        GameOverSound();
         while (NowFaidTime < FaidTime)
         {
             color.a = NowFaidTime;
@@ -151,7 +152,15 @@ class Stage2Manager : Stage1Manager
     /// <summary>
     /// 스테이지 버튼 모음
     /// </summary>
+    /// 
     protected override void ClickStageExitButton() => SceneMove(1);
+    protected override void ClickStageStartAnimSkipButton()
+    {
+        BasicButtonClickSound();
+        StopCoroutine(StartAnim(0));
+        GameStartPanelObj.SetActive(false);
+        IsStart = true;
+    }
     protected override void ClickStageRestartButton() => SceneMove(3);
     protected override void GoToNextStage() => SceneMove(4);
 }

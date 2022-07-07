@@ -435,6 +435,7 @@ MonoBehaviour:
   IsDowning: 0
   IsMoving: 0
   IsHit: 0
+  FishRandMoveClip: {fileID: 8300000, guid: ae6b85fb6bbc7b841a7f77bdd041c1ee, type: 3}
 --- !u!1 &1655161247918569438
 GameObject:
   m_ObjectHideFlags: 0

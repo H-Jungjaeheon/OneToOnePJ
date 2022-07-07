@@ -30,6 +30,7 @@ public class StageSelectManager : MonoBehaviour
     [Header("사운드 모음")]
     [Space(20)]
     [SerializeField] private AudioClip BasicButtonClickClip;
+    [SerializeField] private AudioClip LockButtonClickClip;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +47,7 @@ public class StageSelectManager : MonoBehaviour
     {
         for (int a = 0; a < 6; a++)
         {
-            BookObjs[a].transform.position = new Vector3(BookObjs[a].transform.position.x, BookObjs[a].transform.position.y + Mathf.Sin(Time.time * 1f) * 0.002f, 0);
+            BookObjs[a].transform.position = new Vector3(BookObjs[a].transform.position.x, BookObjs[a].transform.position.y + Mathf.Sin(Time.time * 1f) * 0.001f, 0);
         }
     }
 
@@ -91,6 +92,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private IEnumerator GameStartFaid(float FaidTime, int StageIndex)
     {
+        BasicButtonClickSound();
         if (IsStarting == false)
         {
             ReturnTitleObj.SetActive(true);
@@ -109,6 +111,7 @@ public class StageSelectManager : MonoBehaviour
     }
     private IEnumerator StageLock(float LockTime)
     {
+        LockButtonClickSound();
         if (IsLocking == false)
         {
             IsLocking = true;
@@ -190,4 +193,5 @@ public class StageSelectManager : MonoBehaviour
         }
     }
     private void BasicButtonClickSound() => SoundManager.Instance.SFXPlay("BasicButtonClick", BasicButtonClickClip);
+    private void LockButtonClickSound() => SoundManager.Instance.SFXPlay("LockButtonClick", LockButtonClickClip);
 }
