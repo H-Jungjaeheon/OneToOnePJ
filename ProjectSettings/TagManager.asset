@@ -12,6 +12,7 @@ TagManager:
   - Hand
   - Match
   - Matchs
+  - Kids
   layers:
   - Default
   - TransparentFX

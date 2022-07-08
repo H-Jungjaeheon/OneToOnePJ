@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Stage4Manager : Stage1Manager
 {
-    public static Stage3Manager Instance { get; set; }
+    public static Stage4Manager Instance { get; set; }
+
+    public bool[] IsComPlaetLR;
+
 }

@@ -20,15 +20,15 @@ public class Stage1Guy : MonoBehaviour
     #region 난쟁이 오브젝트 정답 판별
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<Stage1Hat>().IsDraging == false && collision.gameObject.GetComponent<Stage1Hat>().HatIndex == GuyIndex)
+        if(collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<DragObj>().IsDraging == false && collision.gameObject.GetComponent<DragObj>().ObjIndex == GuyIndex)
         {
             GoodSound();
             Instantiate(ResultParticle, new Vector3(transform.position.x, transform.position.y + 0.5f, 0), ResultParticle.transform.rotation);
             StartCoroutine(HatAnim());
         }
-        else if (collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<Stage1Hat>().IsDraging == false && collision.gameObject.GetComponent<Stage1Hat>().HatIndex != GuyIndex && collision.gameObject.GetComponent<Stage1Hat>().IsWrong == false)
+        else if (collision.gameObject.CompareTag("Hats") && collision.gameObject.GetComponent<DragObj>().IsDraging == false && collision.gameObject.GetComponent<DragObj>().ObjIndex != GuyIndex && collision.gameObject.GetComponent<DragObj>().IsWrong == false)
         {
-            collision.gameObject.GetComponent<Stage1Hat>().IsWrong = true;
+            collision.gameObject.GetComponent<DragObj>().IsWrong = true;
             BadSound();
             StartCoroutine(WrongHatAnim());
         }
