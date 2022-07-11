@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; set; }
+    private static GameManager instance = null;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (null == instance)
+                return null;
+            else
+                return instance;
+        }
+    }
+
     public int StageClearCount;
     public StageData[] SD;
     [SerializeField] private GameObject ClickParticle;
@@ -13,24 +24,19 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        var obj = FindObjectsOfType<GameManager>();
-        if (obj.Length == 1)
+        if(instance == null)
         {
-            DontDestroyOnLoad(gameObject);
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
-        {
-            Destroy(gameObject);
-        }
+            Destroy(this.gameObject);
     }
-    // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
         DontDestroyOnLoad(this);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         MouseClickParticle();
