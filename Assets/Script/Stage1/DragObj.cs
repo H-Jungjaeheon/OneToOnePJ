@@ -3,25 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] private bool Answering, IsLeftRotation, IsReturning;
-    [SerializeField] private GameObject Stage1GM;
-    [Header("모자 회전 애니메이션 관련 변수")]
+    [SerializeField] private GameObject GM;
+    [Header("오브젝트 회전 애니메이션 관련 변수")]
     [SerializeField] private float RotationZ;
     [SerializeField] private float RotateSpeed, MaxRotateR, MaxRotateL;
-    [Header("드래그 판별 / 모자 인덱스")]
-    public bool IsDraging, IsWrong;
-    public int HatIndex;
+    [Header("드래그중 판별 / 오브젝트 비교 인덱스")]
+    public bool IsDraging;
+    public bool IsWrong;
+    public int ObjIndex;
     public static Vector2 defaultposition;
     [SerializeField] private Vector3 NowMousePos;
     [SerializeField] private Camera Cam;
+    [Header("비교 콜라이더 이름")]
+    [SerializeField] private string ColliderName;
+    [Header("스테이지 위치")]
+    [SerializeField] private int StageIndex;
 
 
     private void Awake()
     {
-        Stage1GM = GameObject.Find("Stage1Manager");
+        switch (StageIndex) 
+        {
+            case 1: GM = GameObject.Find("Stage1Manager"); break;
+            case 4: GM = GameObject.Find("Stage4Manager"); break;
+        }
     }
+
     private void FixedUpdate()
     {
         HatIdleAnim();
@@ -32,10 +42,7 @@ public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
         NowMousePos = Input.mousePosition;
         NowMousePos = Cam.ScreenToWorldPoint(NowMousePos) + new Vector3(0, 0, 10);
     }
-    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
-    {
-        defaultposition = this.transform.position;
-    }
+    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) => defaultposition = this.transform.position;
     private void HatIdleAnim()
     {
         if (IsLeftRotation)
@@ -81,10 +88,18 @@ public class Stage1Hat : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Guys") && collision.gameObject.GetComponent<Stage1Guy>().GuyIndex == HatIndex && IsDraging == false)
+        switch (StageIndex) 
         {
-            Stage1GM.GetComponent<Stage1Manager>().ResultCount++;
-            Destroy(gameObject);
+            case 1:
+                if (collision.gameObject.CompareTag(ColliderName) && collision.gameObject.GetComponent<Stage1Guy>().GuyIndex == ObjIndex && IsDraging == false)
+                {
+                    GM.GetComponent<Stage1Manager>().ResultCount++;
+                    Destroy(gameObject);
+                }
+                break;
+            case 4:
+                //미구현
+                break;
         }
     }
 }
