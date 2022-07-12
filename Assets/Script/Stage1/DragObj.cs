@@ -22,6 +22,9 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     [Header("스테이지 위치")]
     [SerializeField] private int StageIndex;
 
+    [Tooltip("드래그 레이어 캔버스")]
+    [SerializeField] private Canvas canvas;
+
 
     private void Awake()
     {
