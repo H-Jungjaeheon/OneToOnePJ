@@ -24,21 +24,25 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
 
     [Tooltip("드래그 레이어 캔버스")]
     [SerializeField] private Canvas canvas;
-
+    
 
     private void Awake()
     {
-        switch (StageIndex) 
-        {
-            case 1: GM = GameObject.Find("Stage1Manager"); break;
-            case 4: GM = GameObject.Find("Stage4Manager"); break;
-        }
+        StartSetting();
     }
-
+  
     private void FixedUpdate()
     {
         HatIdleAnim();
         MousePos();
+    }
+    private void StartSetting()
+    {
+        switch (StageIndex)
+        {
+            case 1: GM = GameObject.Find("Stage1Manager"); break;
+            case 4: GM = GameObject.Find("Stage4Manager"); break;
+        }
     }
     private void MousePos()
     {
@@ -67,6 +71,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     {
         if (!Answering && !IsReturning)
         {
+            canvas.sortingOrder = 2;
             IsDraging = true;
             transform.position = NowMousePos + new Vector3(0,0,10);
         }
@@ -74,6 +79,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)//드래그 끝났을 때
     {
+        canvas.sortingOrder = 1;
         IsReturning = true;
         Answering = true;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
