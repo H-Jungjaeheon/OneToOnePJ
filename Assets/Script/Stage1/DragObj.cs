@@ -17,7 +17,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     public static Vector2 defaultposition;
     [SerializeField] private Vector3 NowMousePos;
     [SerializeField] private Camera Cam;
-    [Header("비교 콜라이더 이름")]
+    [Tooltip("다른 콜라이더 비교 방지용 태그 이름")]
     [SerializeField] private string ColliderName;
     [Header("스테이지 위치")]
     [SerializeField] private int StageIndex;
@@ -97,18 +97,15 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        switch (StageIndex) 
+        if (collision.gameObject.CompareTag(ColliderName) && collision.gameObject.GetComponent<DiscriminantObject>().objIndex == ObjIndex && IsDraging == false)
         {
-            case 1:
-                if (collision.gameObject.CompareTag(ColliderName) && collision.gameObject.GetComponent<Stage1Guy>().GuyIndex == ObjIndex && IsDraging == false)
-                {
+            switch (StageIndex)
+            {
+                case 1:
                     GM.GetComponent<Stage1Manager>().ResultCount++;
                     Destroy(gameObject);
-                }
-                break;
-            case 4:
-                //미구현
-                break;
+                    break;
+            }
         }
     }
 }

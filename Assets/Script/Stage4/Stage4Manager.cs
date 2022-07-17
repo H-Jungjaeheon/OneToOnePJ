@@ -4,8 +4,13 @@ using UnityEngine;
 
 public enum CorrectAnswer
 {
-    FirstAnswer,
-    SecondAnswer
+    MaxCorrectAnswer = 2
+}
+
+public enum Character
+{
+    Hansel,
+    Gretel
 }
 
 
@@ -24,10 +29,15 @@ public class Stage4Manager : Stage1Manager
         }
     }
 
-    public bool[] IsCorrectAnswerLR = new bool[2];
-
-
-
+    [SerializeField] private int correctAnswerCount;
+    [SerializeField] private GameObject[] characterObjs;
+    public GameObject[] SpeechBubbleObjs = new GameObject[6];
+    public GameObject[] CookieObjs = new GameObject[6];
+    public int CorrectAnswerCount
+    {
+        get { return correctAnswerCount; }
+        set { if(correctAnswerCount < 3) correctAnswerCount = value; }
+    }
 
     private void Awake()
     {
@@ -40,7 +50,7 @@ public class Stage4Manager : Stage1Manager
         StartPanelAnims();
         IsCorrectAnswer();
     }
-    private void IsStageClear() //게임 클리어, 오버 연출 넣기
+    private void IsStageClear() 
     {
         if (ResultCount == 3)
         {
@@ -51,13 +61,14 @@ public class Stage4Manager : Stage1Manager
     }
     private void IsCorrectAnswer()
     {
-        if(IsCorrectAnswerLR[(int)CorrectAnswer.FirstAnswer] && IsCorrectAnswerLR[(int)CorrectAnswer.SecondAnswer]) //만약 둘 다 정답이라면
+        if ((int)CorrectAnswer.MaxCorrectAnswer == correctAnswerCount)
         {
-            for(int AnswerIndex = (int)CorrectAnswer.FirstAnswer; AnswerIndex <= (int)CorrectAnswer.SecondAnswer; AnswerIndex++)
-            {
-                IsCorrectAnswerLR[AnswerIndex] = false;
-            }
+            correctAnswerCount = 0;
             ResultCount++;
+            for (int NowCharacterIndex = (int)Character.Hansel; NowCharacterIndex <= (int)Character.Gretel; NowCharacterIndex++) 
+            {
+                characterObjs[NowCharacterIndex].GetComponent<DiscriminantObject>().NextQuestion();
+            }
         }
     }
 }
