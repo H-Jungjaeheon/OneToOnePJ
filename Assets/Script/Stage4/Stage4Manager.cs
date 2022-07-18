@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum CorrectAnswer
 {
@@ -39,7 +40,9 @@ public class Stage4Manager : Stage1Manager
     [SerializeField] private GameObject[] characterObjs;
     public GameObject[] SpeechBubbleObjs = new GameObject[6];
     public GameObject[] CookieObjs = new GameObject[6];
+    public Image[] ClearImage = new Image[3]; 
     public List<GameObject> cookieDialog = new List<GameObject>();
+
 
     private void Awake()
     {
@@ -68,6 +71,7 @@ public class Stage4Manager : Stage1Manager
         {
             correctAnswerCount = 0;
             ResultCount++;
+            ChangeClearImage();
             for (int NowCharacterIndex = (int)Character.Hansel; NowCharacterIndex <= (int)Character.Gretel; NowCharacterIndex++) 
             {
                 characterObjs[NowCharacterIndex].GetComponent<DiscriminantObject>().NextQuestion();
@@ -75,5 +79,9 @@ public class Stage4Manager : Stage1Manager
                 cookieDialog.RemoveAt(ListIndexZero);
             }
         }
+    }
+    private void ChangeClearImage() 
+    {
+        ClearImage[(int)ResultCount - 1].GetComponent<Image>().color = new Color(0, 1, 0, 1);
     }
 }

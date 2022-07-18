@@ -22,6 +22,8 @@ public class MovingObjs : MonoBehaviour
     [Tooltip("쿠키 오브젝트 판별")]
     [SerializeField] private bool iscookie;
 
+    [Tooltip("쿠키 오브젝트 판별")]
+    [SerializeField] private GameObject checkIconObj;
     private bool isObjDestroying;
 
 
@@ -54,10 +56,10 @@ public class MovingObjs : MonoBehaviour
         Vector3 DestoryScale = new Vector3(0, 0, 0);
         Vector3 MaxScale = new Vector3(1.2f, 1, 1);
         if (IsSpawnAnim)
-            transform.DOScale(MaxScale, 1f).SetEase(Ease.InBounce);
+            transform.DOScale(MaxScale, 0.6f).SetEase(Ease.OutBack);
         else
         {
-            transform.DOScale(DestoryScale, 1f).SetEase(Ease.InBounce);
+            transform.DOScale(DestoryScale, 0.6f).SetEase(Ease.InBack);
             isObjDestroying = true;
         }
     } 

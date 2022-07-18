@@ -12,6 +12,7 @@ TagManager:
   - Matchs
   - DragObjs
   - DiscriminantObjects
+  - SpeechBubble
   layers:
   - Default
   - TransparentFX

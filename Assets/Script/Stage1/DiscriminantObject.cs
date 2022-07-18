@@ -35,10 +35,14 @@ public class DiscriminantObject : MonoBehaviour
     [Tooltip("정답 쿠키 실루엣 말풍선 오브젝트 소환 위치")]
     [SerializeField] private Vector3 cookieDialogSpawnVector;
 
+    [Tooltip("연출용 부모 오브젝트")]
+    [SerializeField] private GameObject parentObj;
+
     [Header("사운드 모음")]
     [Space(20)]
     [SerializeField] protected AudioClip GoodClip;
-    [SerializeField] protected AudioClip BadClip; 
+    [SerializeField] protected AudioClip BadClip;
+    [SerializeField] private GameObject spawnCookieDialogObj;
 
     private void Start()
     {
@@ -51,7 +55,10 @@ public class DiscriminantObject : MonoBehaviour
         if (nowStageIndex == 4)
         {
             objIndex = Random.Range((int)CookieObjIndex.MinCookieObjIndex, (int)CookieObjIndex.MaxCookieObjIndex);
-            stage4Instance.cookieDialog.Add(Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation));
+            //stage4Instance.cookieDialog.Add(Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation).transform.parent = this.transform.parent);
+            Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation).transform.parent = parentObj.transform;
+            stage4Instance.cookieDialog.Add(parentObj.transform.GetChild(0).gameObject);
+            spawnCookieDialogObj = parentObj.transform.GetChild(0).gameObject;
         }
         animator = GetComponent<Animator>();
     }
@@ -69,6 +76,7 @@ public class DiscriminantObject : MonoBehaviour
                     StartCoroutine(CompleatAnim(3));
                 else if (nowStageIndex == 4) 
                 {
+                    spawnCookieDialogObj.transform.GetChild(1).gameObject.SetActive(true);
                     StartCoroutine(CompleatAnim(3));
                     Instantiate(stage4Instance.CookieObjs[objIndex], cookieObjSpawnVector, stage4Instance.CookieObjs[objIndex].transform.rotation);
                 }
@@ -134,7 +142,9 @@ public class DiscriminantObject : MonoBehaviour
             isCompleatAnimating = false;
             isAnimating = false;
             objIndex = Random.Range((int)CookieObjIndex.MinCookieObjIndex, (int)CookieObjIndex.MaxCookieObjIndex);
-            stage4Instance.cookieDialog.Add(Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation));
+            Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation).transform.parent = parentObj.transform;
+            stage4Instance.cookieDialog.Add(parentObj.transform.GetChild(0).gameObject);
+            spawnCookieDialogObj = parentObj.transform.GetChild(0).gameObject;
         }
     }
 
