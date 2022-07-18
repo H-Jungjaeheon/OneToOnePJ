@@ -32,20 +32,27 @@ public class DiscriminantObject : MonoBehaviour
     [Tooltip("정답 쿠키 오브젝트 소환 위치")]
     [SerializeField] private Vector3 cookieObjSpawnVector;
 
+    [Tooltip("정답 쿠키 실루엣 말풍선 오브젝트 소환 위치")]
+    [SerializeField] private Vector3 cookieDialogSpawnVector;
+
     [Header("사운드 모음")]
     [Space(20)]
     [SerializeField] protected AudioClip GoodClip;
-    [SerializeField] protected AudioClip BadClip;
+    [SerializeField] protected AudioClip BadClip; 
 
-    private void Awake()
+    private void Start()
     {
         StartSetting();
     }
 
     private void StartSetting()
     {
-        if(nowStageIndex == 4)
-           objIndex = Random.Range((int)CookieObjIndex.MinCookieObjIndex, (int)CookieObjIndex.MaxCookieObjIndex);
+        var stage4Instance = Stage4Manager.Instance;
+        if (nowStageIndex == 4)
+        {
+            objIndex = Random.Range((int)CookieObjIndex.MinCookieObjIndex, (int)CookieObjIndex.MaxCookieObjIndex);
+            stage4Instance.cookieDialog.Add(Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation));
+        }
         animator = GetComponent<Animator>();
     }
     #region 오브젝트 정답 판별
@@ -53,6 +60,7 @@ public class DiscriminantObject : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("DragObjs") && collision.gameObject.GetComponent<DragObj>().IsDraging == false && collision.gameObject.GetComponent<DragObj>().ObjIndex == objIndex)
         {
+            var stage4Instance = Stage4Manager.Instance;
             if (isCompleatAnimating == false)
             {
                 Instantiate(ResultParticle, new Vector3(transform.position.x, transform.position.y + 0.5f, 0), ResultParticle.transform.rotation);
@@ -62,7 +70,7 @@ public class DiscriminantObject : MonoBehaviour
                 else if (nowStageIndex == 4) 
                 {
                     StartCoroutine(CompleatAnim(3));
-                    Instantiate(Stage4Manager.Instance.CookieObjs[objIndex], cookieObjSpawnVector, Stage4Manager.Instance.CookieObjs[objIndex].transform.rotation);
+                    Instantiate(stage4Instance.CookieObjs[objIndex], cookieObjSpawnVector, stage4Instance.CookieObjs[objIndex].transform.rotation);
                 }
             }
         }
@@ -115,13 +123,18 @@ public class DiscriminantObject : MonoBehaviour
     /// <summary>
     /// 스테이지 4 : 2개의 문제 완료시 다음 문제로 넘어가기
     /// </summary>
-    public void NextQuestion()
+    public void NextQuestion() => StartCoroutine(NextQuestionAnim());
+
+    private IEnumerator NextQuestionAnim()
     {
+        var stage4Instance = Stage4Manager.Instance;
         if (Stage4Manager.Instance.ResultCount < 3)
         {
+            yield return new WaitForSeconds(2);
             isCompleatAnimating = false;
             isAnimating = false;
             objIndex = Random.Range((int)CookieObjIndex.MinCookieObjIndex, (int)CookieObjIndex.MaxCookieObjIndex);
+            stage4Instance.cookieDialog.Add(Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation));
         }
     }
 

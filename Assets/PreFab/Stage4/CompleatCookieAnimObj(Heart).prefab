@@ -101,3 +101,4 @@ MonoBehaviour:
   MovingObjUpSpeed: 0
   IsLeft: 0
   sR: {fileID: 6365946161336290290}
+  iscookie: 1

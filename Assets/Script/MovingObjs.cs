@@ -1,25 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class MovingObjs : MonoBehaviour
 {
     [Tooltip("현재 스테이지 인덱스")]
     [SerializeField] private int NowStage;
-    [Header("스테이지 물방울 효과 오브젝트")]
+
+    [Tooltip("스테이지 물방울 효과 오브젝트")]
     [SerializeField] private GameObject[] MovingObj;
+
     [Header("물방울 효과 이동 관련 변수")]
     [SerializeField] private float MovingObjRightSpeed;
     [SerializeField] private float MovingObjUpSpeed;
+
     [Header("눈 오브젝트 좌우 판별")]
     [SerializeField] private bool IsLeft;
     [SerializeField] private SpriteRenderer sR;
 
+    [Tooltip("쿠키 오브젝트 판별")]
+    [SerializeField] private bool iscookie;
+
+    private bool isObjDestroying;
+
 
     void Start() 
     {
-        if (NowStage == 4)
+        if (NowStage == 4 && iscookie)
             StartCoroutine(CookieAnim());
+        else if(NowStage == 4 && iscookie == false)
+            CookieDialogAnim(true);
     }
 
     void Update()
@@ -32,7 +43,25 @@ public class MovingObjs : MonoBehaviour
         {
             ObjMove(false);
         }
+        if (transform.localScale.x == 0 && isObjDestroying)
+        {
+            Destroy(gameObject);
+        }
     }
+
+    public void CookieDialogAnim(bool IsSpawnAnim) 
+    {
+        Vector3 DestoryScale = new Vector3(0, 0, 0);
+        Vector3 MaxScale = new Vector3(1.2f, 1, 1);
+        if (IsSpawnAnim)
+            transform.DOScale(MaxScale, 1f).SetEase(Ease.InBounce);
+        else
+        {
+            transform.DOScale(DestoryScale, 1f).SetEase(Ease.InBounce);
+            isObjDestroying = true;
+        }
+    } 
+
     private void ObjMove(bool IsBubble)
     {
         if (IsBubble)

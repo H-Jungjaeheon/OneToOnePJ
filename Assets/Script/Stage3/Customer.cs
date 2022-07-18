@@ -30,7 +30,7 @@ public class Customer : MonoBehaviour
     }
     private void StartMove()
     {
-        if(transform.position.x < -7 && !End) // -1.9 -2.12
+        if(transform.position.x < -7 && !End) 
         {
             if (!IsUp)
             {
@@ -45,7 +45,7 @@ public class Customer : MonoBehaviour
                     IsUp = false;
             }
         }
-        else if(transform.position.x >= -7 && !IsOrder) //손 원래 위치 5, 7, 0
+        else if(transform.position.x >= -7 && !IsOrder) 
         {
             Stage3Manager.Instance.MatchesCountObj[Stage3Manager.Instance.MaxMatchesCount - 1].transform.DOScale(1, 0.5f);
             var HandObj = Stage3Manager.Instance.HandObj;

@@ -30,14 +30,16 @@ public class Stage4Manager : Stage1Manager
     }
 
     [SerializeField] private int correctAnswerCount;
-    [SerializeField] private GameObject[] characterObjs;
-    public GameObject[] SpeechBubbleObjs = new GameObject[6];
-    public GameObject[] CookieObjs = new GameObject[6];
     public int CorrectAnswerCount
     {
         get { return correctAnswerCount; }
-        set { if(correctAnswerCount < 3) correctAnswerCount = value; }
+        set { if (correctAnswerCount < 3) correctAnswerCount = value; }
     }
+
+    [SerializeField] private GameObject[] characterObjs;
+    public GameObject[] SpeechBubbleObjs = new GameObject[6];
+    public GameObject[] CookieObjs = new GameObject[6];
+    public List<GameObject> cookieDialog = new List<GameObject>();
 
     private void Awake()
     {
@@ -61,6 +63,7 @@ public class Stage4Manager : Stage1Manager
     }
     private void IsCorrectAnswer()
     {
+        int ListIndexZero = 0;
         if ((int)CorrectAnswer.MaxCorrectAnswer == correctAnswerCount)
         {
             correctAnswerCount = 0;
@@ -68,6 +71,8 @@ public class Stage4Manager : Stage1Manager
             for (int NowCharacterIndex = (int)Character.Hansel; NowCharacterIndex <= (int)Character.Gretel; NowCharacterIndex++) 
             {
                 characterObjs[NowCharacterIndex].GetComponent<DiscriminantObject>().NextQuestion();
+                cookieDialog[ListIndexZero].GetComponent<MovingObjs>().CookieDialogAnim(false);
+                cookieDialog.RemoveAt(ListIndexZero);
             }
         }
     }
