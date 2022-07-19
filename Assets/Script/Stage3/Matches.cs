@@ -5,11 +5,21 @@ using UnityEngine;
 public class Matches : MonoBehaviour
 {
     [SerializeField] private GameObject ParticleObj;
-    private GameObject Handobj = Stage3Manager.Instance.HandObj;
+    private GameObject Handobj;
 
     [Header("사운드 모음")]
     [Space(20)]
     [SerializeField] protected AudioClip GiveHandClip;
+
+    private void Start()
+    {
+        StartSetting();
+    }
+
+    private void StartSetting() 
+    {
+        Handobj = Stage3Manager.Instance.HandObj;
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {

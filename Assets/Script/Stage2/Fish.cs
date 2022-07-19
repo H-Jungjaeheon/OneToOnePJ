@@ -57,7 +57,7 @@ public class Fish : MonoBehaviour
         NowMoveIndex += Time.deltaTime;
         if (!IsHit)
             transform.position += new Vector3(Speed * Time.deltaTime, 0, 0);
-        if(NowMoveIndex >= MoveIndex && !IsMoveCompleat && IsHalfTimes && IsMoving && !IsEnd)
+        if(NowMoveIndex >= MoveIndex && IsMoveCompleat == false && IsHalfTimes && IsMoving && IsEnd == false)
         {
             if (!SoundOut)
             {
@@ -69,20 +69,14 @@ public class Fish : MonoBehaviour
                 if(NowYPos + 2.15f <= 2.15f)
                     RandMoves(true);
                 else
-                {
                     RandMoves(false);
-                    SoundOut = false;
-                }
             }
             else
             {
                 if(NowYPos - 2.15f >= -2.15f)
                     RandMoves(false);
                 else
-                {
                     RandMoves(true);
-                    SoundOut = false;
-                }
             }
             if (TargetPos.y <= transform.position.y + 0.005f && IsUping || TargetPos.y >= transform.position.y - 0.005f && IsDowning)
             {

@@ -10,16 +10,15 @@ public class Customer : MonoBehaviour
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float UpDownSpeed;
     [SerializeField] CubismRenderController rendererController;
-    private GameObject GoodSpeechBubble = Stage3Manager.Instance.MatchesCountObj[5];
-    private GameObject BadSpeechBubble = Stage3Manager.Instance.MatchesCountObj[6];
+    private GameObject GoodSpeechBubble;
+    private GameObject BadSpeechBubble;
     private bool IsUp, IsOrder, End;
     private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        rendererController.SortingMode = CubismSortingMode.BackToFrontZ;
-        animator = GetComponent<Animator>();
+        StartSetting();
     }
 
     // Update is called once per frame
@@ -28,6 +27,15 @@ public class Customer : MonoBehaviour
         StartMove();
         Discrimination();
     }
+
+    private void StartSetting() 
+    {
+        GoodSpeechBubble = Stage3Manager.Instance.MatchesCountObj[5];
+        BadSpeechBubble = Stage3Manager.Instance.MatchesCountObj[6];
+        rendererController.SortingMode = CubismSortingMode.BackToFrontZ;
+        animator = GetComponent<Animator>();
+    }
+
     private void StartMove()
     {
         if(transform.position.x < -7 && !End) 

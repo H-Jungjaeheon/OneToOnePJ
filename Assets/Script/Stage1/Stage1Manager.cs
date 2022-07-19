@@ -82,8 +82,11 @@ public class Stage1Manager : MonoBehaviour
         Instantiate(StageClearParticleObj, ParticleObjSpawner.transform.position + new Vector3(0,0,-90), StageClearParticleObj.transform.rotation);
         GameClearBalloonObj.SetActive(true);
         yield return new WaitForSeconds(7f);
-        GameManager.Instance.StageClearCount++;
-        GameManager.Instance.SD[StageIndex].IsClear = true;
+        if (GameManager.Instance.SD[StageIndex].IsClear == false)
+        {
+            GameManager.Instance.StageClearCount++;
+            GameManager.Instance.SD[StageIndex].IsClear = true;
+        }
         SameBlackBG.SetActive(true);
         GameClearObj.transform.DOScale(1, 0.8f).SetEase(Ease.InCubic);
         GameClearSound();
