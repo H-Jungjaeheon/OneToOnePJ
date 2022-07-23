@@ -51,11 +51,10 @@ public class DiscriminantObject : MonoBehaviour
 
     private void StartSetting()
     {
-        var stage4Instance = Stage4Manager.Instance;
         if (nowStageIndex == 4)
         {
+            var stage4Instance = Stage4Manager.Instance;
             objIndex = Random.Range((int)CookieObjIndex.MinCookieObjIndex, (int)CookieObjIndex.MaxCookieObjIndex);
-            //stage4Instance.cookieDialog.Add(Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation).transform.parent = this.transform.parent);
             Instantiate(stage4Instance.SpeechBubbleObjs[objIndex], cookieDialogSpawnVector, stage4Instance.SpeechBubbleObjs[objIndex].transform.rotation).transform.parent = parentObj.transform;
             stage4Instance.cookieDialog.Add(parentObj.transform.GetChild(0).gameObject);
             spawnCookieDialogObj = parentObj.transform.GetChild(0).gameObject;
@@ -65,39 +64,51 @@ public class DiscriminantObject : MonoBehaviour
     #region 오브젝트 정답 판별
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("DragObjs") && collision.gameObject.GetComponent<DragObj>().IsDraging == false && collision.gameObject.GetComponent<DragObj>().ObjIndex == objIndex)
+        if (collision.gameObject.GetComponent<DragObj>().IsDraging == false && collision.gameObject.GetComponent<DragObj>().isCorrect == false
+        && collision.gameObject.CompareTag("DragObjs") && isCompleatAnimating == false) 
         {
-            var stage4Instance = Stage4Manager.Instance;
-            if (isCompleatAnimating == false)
+            var DragObjGetComponent = collision.gameObject.GetComponent<DragObj>();
+            if (DragObjGetComponent.ObjIndex == objIndex)
             {
-                Instantiate(ResultParticle, new Vector3(transform.position.x, transform.position.y + 0.5f, 0), ResultParticle.transform.rotation);
+                print("실행");
+                Vector3 ResultParticleSpawnVector = new Vector2(transform.position.x, transform.position.y + 0.5f);
+                Instantiate(ResultParticle, ResultParticleSpawnVector, ResultParticle.transform.rotation);
                 GoodSound();
-                if (nowStageIndex == 1)
-                    StartCoroutine(CompleatAnim(3));
-                else if (nowStageIndex == 4) 
+                switch (nowStageIndex)
                 {
-                    spawnCookieDialogObj.transform.GetChild(1).gameObject.SetActive(true);
-                    StartCoroutine(CompleatAnim(3));
-                    Instantiate(stage4Instance.CookieObjs[objIndex], cookieObjSpawnVector, stage4Instance.CookieObjs[objIndex].transform.rotation);
+                    case 1:
+                        StartCoroutine(CompleatAnim(3));
+                        break;
+                    case 4:
+                        var stage4Instance = Stage4Manager.Instance;
+                        spawnCookieDialogObj.transform.GetChild(1).gameObject.SetActive(true);
+                        StartCoroutine(CompleatAnim(3));
+                        Instantiate(stage4Instance.CookieObjs[objIndex], cookieObjSpawnVector, stage4Instance.CookieObjs[objIndex].transform.rotation);
+                        break;
                 }
             }
-        }
-        else if (collision.gameObject.CompareTag("DragObjs") && collision.gameObject.GetComponent<DragObj>().IsDraging == false && collision.gameObject.GetComponent<DragObj>().ObjIndex != objIndex && collision.gameObject.GetComponent<DragObj>().IsWrong == false)
-        {
-            collision.gameObject.GetComponent<DragObj>().IsWrong = true;
-            if (isAnimating == false && isCompleatAnimating == false)
+            else if(DragObjGetComponent.ObjIndex != objIndex && DragObjGetComponent.IsWrong == false)
             {
-                BadSound();
-                if (nowStageIndex == 1)
-                    StartCoroutine(WrongAnim(3));
-                else if (nowStageIndex == 4)
-                    StartCoroutine(WrongAnim(2.3f));
+                DragObjGetComponent.IsWrong = true;
+                if (isAnimating == false)
+                {
+                    BadSound();
+                    switch (nowStageIndex)
+                    {
+                        case 1:
+                            StartCoroutine(WrongAnim(3));
+                            break;
+                        case 4:
+                            StartCoroutine(WrongAnim(2.3f));
+                            break;
+                    }
+                }
             }
         }
     }
     #endregion
 
-    #region 공통 애니메이션
+    #region 캐릭터의 공통 애니메이션
     IEnumerator CompleatAnim(float AnimWaitTime)
     {
         isAnimating = true;

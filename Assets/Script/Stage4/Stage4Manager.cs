@@ -84,4 +84,6 @@ public class Stage4Manager : Stage1Manager
     {
         ClearImage[(int)ResultCount - 1].GetComponent<Image>().color = new Color(0, 1, 0, 1);
     }
+    protected override void ClickStageRestartButton() => SceneMove(5);
+    protected override void GoToNextStage() => SceneMove(6);
 }

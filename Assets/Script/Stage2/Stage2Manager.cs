@@ -157,14 +157,6 @@ class Stage2Manager : Stage1Manager
     /// 스테이지 버튼 모음
     /// </summary>
     /// 
-    protected override void ClickStageExitButton() => SceneMove(1);
-    protected override void ClickStageStartAnimSkipButton()
-    {
-        BasicButtonClickSound();
-        StopCoroutine(StartAnim(0));
-        GameStartPanelObj.SetActive(false);
-        IsStart = true;
-    }
     protected override void ClickStageRestartButton() => SceneMove(3);
     protected override void GoToNextStage() => SceneMove(4);
 }

@@ -211,7 +211,6 @@ public class Stage3Manager : Stage1Manager
     /// <summary>
     /// 스테이지 버튼 모음
     /// </summary>
-    protected override void ClickStageExitButton() => SceneMove(1);
     protected override void ClickStageRestartButton() => SceneMove(4);
     protected override void GoToNextStage() => SceneMove(5);
 
