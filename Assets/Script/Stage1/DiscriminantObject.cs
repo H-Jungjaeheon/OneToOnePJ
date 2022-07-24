@@ -64,16 +64,13 @@ public class DiscriminantObject : MonoBehaviour
     #region 오브젝트 정답 판별
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<DragObj>().IsDraging == false && collision.gameObject.GetComponent<DragObj>().isCorrect == false
-        && collision.gameObject.CompareTag("DragObjs") && isCompleatAnimating == false) 
+        if (collision.gameObject.GetComponent<DragObj>().IsDraging == false
+        && collision.gameObject.CompareTag("DragObjs") && isCompleatAnimating == false)
         {
             var DragObjGetComponent = collision.gameObject.GetComponent<DragObj>();
-            if (DragObjGetComponent.ObjIndex == objIndex)
+            if (DragObjGetComponent.ObjIndex == objIndex && nowStageIndex != 5)
             {
-                print("실행");
-                Vector3 ResultParticleSpawnVector = new Vector2(transform.position.x, transform.position.y + 0.5f);
-                Instantiate(ResultParticle, ResultParticleSpawnVector, ResultParticle.transform.rotation);
-                GoodSound();
+                CorrectAwnser();
                 switch (nowStageIndex)
                 {
                     case 1:
@@ -87,7 +84,7 @@ public class DiscriminantObject : MonoBehaviour
                         break;
                 }
             }
-            else if(DragObjGetComponent.ObjIndex != objIndex && DragObjGetComponent.IsWrong == false)
+            else if (DragObjGetComponent.ObjIndex != objIndex && DragObjGetComponent.IsWrong == false)
             {
                 DragObjGetComponent.IsWrong = true;
                 if (isAnimating == false)
@@ -105,6 +102,12 @@ public class DiscriminantObject : MonoBehaviour
                 }
             }
         }
+    }
+    public void CorrectAwnser() 
+    {
+        Vector3 ResultParticleSpawnVector = new Vector2(transform.position.x, transform.position.y + 0.5f);
+        Instantiate(ResultParticle, ResultParticleSpawnVector, ResultParticle.transform.rotation);
+        GoodSound();
     }
     #endregion
 

@@ -103,12 +103,11 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
         canvas.sortingOrder = 1;
         IsReturning = true;
         Answering = true;
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         StartCoroutine(DragEnd());
     }
     private IEnumerator DragEnd()
     {
-        yield return new WaitForSeconds(0.03f);
+        yield return new WaitForSeconds(0.1f);
         if(isCorrect == false)
            transform.position = defaultposition;
         IsWrong = false;
@@ -120,6 +119,8 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     {
         if (collision.gameObject.CompareTag(ColliderName) && collision.gameObject.GetComponent<DiscriminantObject>().objIndex == ObjIndex && IsDraging == false && isCorrect == false)
         {
+            if (StageIndex == 5) 
+                isCorrect = true;
             switch (StageIndex)
             {
                 case 1:
@@ -127,11 +128,12 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
                     Destroy(gameObject);
                     break;
                 case 5:
-                    GM.GetComponent<Stage5Manager>().ResultCount++;
+                    collision.gameObject.GetComponent<DiscriminantObject>().CorrectAwnser();
+                    Stage5Manager.Instance.ResultCount++;
+                    Stage5Manager.Instance.jarPiece.Add(gameObject);
                     transform.position = compleatPosition;
                     transform.localScale = compleatScale;
                     transform.rotation = Quaternion.identity;
-                    isCorrect = true;
                     break;
             }
         }
