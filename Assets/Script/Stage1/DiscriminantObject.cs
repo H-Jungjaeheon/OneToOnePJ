@@ -22,6 +22,10 @@ public class DiscriminantObject : MonoBehaviour
     [Tooltip("현재 스테이지 인덱스")]
     [SerializeField] private int nowStageIndex;
 
+    [Header("애니메이션 실행 판별")]
+    [Tooltip("성공 후 애니메이션을 가지고 있는지")]
+    [SerializeField] private bool hasCompleatAnimate;
+
     [Header("애니메이션 실행중 판별")]
     [Tooltip("애니메이션 실행중(아무 애니메이션)")]
     [SerializeField] private bool isAnimating;
@@ -82,6 +86,10 @@ public class DiscriminantObject : MonoBehaviour
                         StartCoroutine(CompleatAnim(3));
                         Instantiate(stage4Instance.CookieObjs[objIndex], cookieObjSpawnVector, stage4Instance.CookieObjs[objIndex].transform.rotation);
                         break;
+                    case 6:
+                        if (hasCompleatAnimate)
+                            StartCoroutine(CompleatAnim(3));
+                        break;
                 }
             }
             else if (DragObjGetComponent.ObjIndex != objIndex && DragObjGetComponent.IsWrong == false)
@@ -118,11 +126,14 @@ public class DiscriminantObject : MonoBehaviour
         isCompleatAnimating = true;
         animator.SetBool("IsBad", false);
         animator.SetBool("IsCompleat", true);
-        yield return new WaitForSeconds(AnimWaitTime); 
-        animator.SetBool("IsCompleat", false);
         if (nowStageIndex == 1)
+            yield return new WaitForSeconds(AnimWaitTime); 
+        else
+            yield return new WaitForSeconds(AnimWaitTime + 1.3f);
+        animator.SetBool("IsCompleat", false);
+        if (nowStageIndex == 1 || nowStageIndex == 6)
         {
-            animator.SetBool("IsHat", true);
+            animator.SetBool("IsGood", true);
             isCompleatAnimating = false;
             isAnimating = false;
         }

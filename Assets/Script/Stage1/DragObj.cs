@@ -60,6 +60,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
             case 1: GM = GameObject.Find("Stage1Manager"); break;
             case 4: GM = GameObject.Find("Stage4Manager"); break;
             case 5: GM = GameObject.Find("Stage5Manager"); break;
+            case 6: GM = GameObject.Find("Stage6Manager"); break;
         }
     }
     private void MousePos()
@@ -108,7 +109,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     }
     private IEnumerator DragEnd()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.03f);
         if(isCorrect == false)
            transform.position = defaultposition;
         IsWrong = false;
@@ -135,6 +136,10 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
                     transform.position = compleatPosition;
                     transform.localScale = compleatScale;
                     transform.rotation = Quaternion.identity;
+                    break;
+                case 6:
+                    GM.GetComponent<Stage6Manager>().ResultCount++;
+                    Destroy(gameObject);
                     break;
             }
         }

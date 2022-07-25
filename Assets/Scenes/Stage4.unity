@@ -1166,6 +1166,7 @@ MonoBehaviour:
   ResultParticle: {fileID: 5352250051768634145, guid: 502ea3475f9b78f44924329b1111b983, type: 3}
   animator: {fileID: 0}
   nowStageIndex: 4
+  hasCompleatAnimate: 1
   isAnimating: 0
   isCompleatAnimating: 0
   cookieObjSpawnVector: {x: 0.3, y: -3.8, z: 0}
@@ -3621,22 +3622,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af849b848f3b534f841d557af0221ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Answering: 0
-  IsLeftRotation: 0
-  IsReturning: 0
-  GM: {fileID: 0}
-  RotationZ: 0
   RotateSpeed: 10
   MaxRotateR: 15
   MaxRotateL: -15
-  IsDraging: 0
   IsWrong: 0
   ObjIndex: 4
-  NowMousePos: {x: 0, y: 0, z: 0}
-  Cam: {fileID: 413096644}
   ColliderName: DiscriminantObjects
   StageIndex: 4
   canvas: {fileID: 1029338205}
+  compleatPosition: {x: 0, y: 0, z: 0}
+  compleatScale: {x: 0, y: 0}
+  compleatRotation: {x: 0, y: 0, z: 0}
+  isCorrect: 0
+  IsDraging: 0
 --- !u!1 &307197684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4951,22 +4949,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af849b848f3b534f841d557af0221ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Answering: 0
-  IsLeftRotation: 0
-  IsReturning: 0
-  GM: {fileID: 0}
-  RotationZ: 0
   RotateSpeed: 10
   MaxRotateR: 15
   MaxRotateL: -15
-  IsDraging: 0
   IsWrong: 0
   ObjIndex: 5
-  NowMousePos: {x: 0, y: 0, z: 0}
-  Cam: {fileID: 413096644}
   ColliderName: DiscriminantObjects
   StageIndex: 4
   canvas: {fileID: 1210745767}
+  compleatPosition: {x: 0, y: 0, z: 0}
+  compleatScale: {x: 0, y: 0}
+  compleatRotation: {x: 0, y: 0, z: 0}
+  isCorrect: 0
+  IsDraging: 0
 --- !u!1 &497864144
 GameObject:
   m_ObjectHideFlags: 0
@@ -8032,22 +8027,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af849b848f3b534f841d557af0221ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Answering: 0
-  IsLeftRotation: 0
-  IsReturning: 0
-  GM: {fileID: 0}
-  RotationZ: 0
   RotateSpeed: 10
   MaxRotateR: 15
   MaxRotateL: -15
-  IsDraging: 0
   IsWrong: 0
   ObjIndex: 3
-  NowMousePos: {x: 0, y: 0, z: 0}
-  Cam: {fileID: 413096644}
   ColliderName: DiscriminantObjects
   StageIndex: 4
   canvas: {fileID: 232660901}
+  compleatPosition: {x: 0, y: 0, z: 0}
+  compleatScale: {x: 0, y: 0}
+  compleatRotation: {x: 0, y: 0, z: 0}
+  isCorrect: 0
+  IsDraging: 0
 --- !u!43 &802164327
 Mesh:
   m_ObjectHideFlags: 0
@@ -9786,22 +9778,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af849b848f3b534f841d557af0221ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Answering: 0
-  IsLeftRotation: 0
-  IsReturning: 0
-  GM: {fileID: 0}
-  RotationZ: 0
   RotateSpeed: 10
   MaxRotateR: 15
   MaxRotateL: -15
-  IsDraging: 0
   IsWrong: 0
   ObjIndex: 0
-  NowMousePos: {x: 0, y: 0, z: 0}
-  Cam: {fileID: 413096644}
   ColliderName: DiscriminantObjects
   StageIndex: 4
   canvas: {fileID: 192580145}
+  compleatPosition: {x: 0, y: 0, z: 0}
+  compleatScale: {x: 0, y: 0}
+  compleatRotation: {x: 0, y: 0, z: 0}
+  isCorrect: 0
+  IsDraging: 0
 --- !u!58 &1021121100
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -12993,22 +12982,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af849b848f3b534f841d557af0221ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Answering: 0
-  IsLeftRotation: 0
-  IsReturning: 0
-  GM: {fileID: 0}
-  RotationZ: 0
   RotateSpeed: 10
   MaxRotateR: 15
   MaxRotateL: -15
-  IsDraging: 0
   IsWrong: 0
   ObjIndex: 2
-  NowMousePos: {x: 0, y: 0, z: 0}
-  Cam: {fileID: 413096644}
   ColliderName: DiscriminantObjects
   StageIndex: 4
   canvas: {fileID: 376774294}
+  compleatPosition: {x: 0, y: 0, z: 0}
+  compleatScale: {x: 0, y: 0}
+  compleatRotation: {x: 0, y: 0, z: 0}
+  isCorrect: 0
+  IsDraging: 0
 --- !u!1 &1316626266
 GameObject:
   m_ObjectHideFlags: 0
@@ -15028,22 +15014,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af849b848f3b534f841d557af0221ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Answering: 0
-  IsLeftRotation: 0
-  IsReturning: 0
-  GM: {fileID: 0}
-  RotationZ: 0
   RotateSpeed: 10
   MaxRotateR: 15
   MaxRotateL: -15
-  IsDraging: 0
   IsWrong: 0
   ObjIndex: 1
-  NowMousePos: {x: 0, y: 0, z: 0}
-  Cam: {fileID: 413096644}
   ColliderName: DiscriminantObjects
   StageIndex: 4
   canvas: {fileID: 1466944534}
+  compleatPosition: {x: 0, y: 0, z: 0}
+  compleatScale: {x: 0, y: 0}
+  compleatRotation: {x: 0, y: 0, z: 0}
+  isCorrect: 0
+  IsDraging: 0
 --- !u!43 &1535628869
 Mesh:
   m_ObjectHideFlags: 0
@@ -25111,6 +25094,7 @@ MonoBehaviour:
   ResultParticle: {fileID: 5352250051768634145, guid: 502ea3475f9b78f44924329b1111b983, type: 3}
   animator: {fileID: 0}
   nowStageIndex: 4
+  hasCompleatAnimate: 1
   isAnimating: 0
   isCompleatAnimating: 0
   cookieObjSpawnVector: {x: 6.5, y: -3.8, z: 0}
