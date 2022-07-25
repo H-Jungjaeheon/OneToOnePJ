@@ -39,6 +39,7 @@ public class Stage6Manager : Stage1Manager
         {
             GameEnd = true;
             ResultCount++;
+            StartCoroutine(StageClear(5.5f));
         }
     }
 

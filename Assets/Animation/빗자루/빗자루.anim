@@ -226,7 +226,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 3.933
+    m_StopTime: 3.9333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -427,3 +427,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: -13424
     messageOptions: 1
+  - time: 3.9333334
+    functionName: DestoryObj
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 6c29f3440a75f9d4785769d18bcb8ef7, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

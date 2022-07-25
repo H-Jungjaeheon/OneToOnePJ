@@ -26,13 +26,14 @@ public class MovingObjs : MonoBehaviour
     [SerializeField] private GameObject checkIconObj;
     private bool isObjDestroying;
 
-
     void Start() 
     {
         if (NowStage == 4 && iscookie)
             StartCoroutine(CookieAnim());
-        else if(NowStage == 4 && iscookie == false)
+        else if (NowStage == 4 && iscookie == false)
             CookieDialogAnim(true);
+        else if (NowStage == 6)
+            StartCoroutine(CleaningAnim(2.8f));
     }
 
     void Update()
@@ -102,6 +103,38 @@ public class MovingObjs : MonoBehaviour
                     MovingObj[SnowIndex].transform.position = new Vector3(0, 10.3f, 0);
                 }
             }
+        }
+    }
+
+    IEnumerator CleaningAnim(float MaxCleaningAnimCount)
+    {
+        bool IsUp = false;
+        float NowAnimCount = 0;
+        float ChangeGoingUpConditionY = 2.8f;
+        float ChangeGoingDownConditionY = 4f;
+        Vector2 MaxUpPosition = new Vector2(-2.2f, 4.1f);
+        Vector2 MaxDownPosition = new Vector2(-2.2f, 2.7f);
+        while (true)
+        {
+            if(IsUp)
+                transform.position = Vector2.Lerp(transform.position, MaxUpPosition, 0.05f);
+            else
+                transform.position = Vector2.Lerp(transform.position, MaxDownPosition, 0.05f);
+            if (transform.position.y <= ChangeGoingUpConditionY)
+                IsUp = true;
+            else if(transform.position.y >= ChangeGoingDownConditionY)
+                IsUp = false;
+            NowAnimCount += Time.deltaTime;
+            if (NowAnimCount >= MaxCleaningAnimCount)
+                break;
+            yield return null;
+        }
+        float nowAlpha = 1;
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        while (nowAlpha > 0)
+        {
+            sr.color = new Color(1, 1, 1, nowAlpha -= Time.deltaTime);
+            yield return null;
         }
     }
 
