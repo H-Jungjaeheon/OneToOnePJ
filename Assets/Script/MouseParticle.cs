@@ -30,7 +30,7 @@ public class MouseParticle : MonoBehaviour
         {
             //print("드래그중");
             particle.Play();
-            particle.loop = true;
+            //particle.loop = true;
             _mousePos = Input.mousePosition;
             _mousePos.z = _distanceFromCamera;
 
@@ -41,7 +41,7 @@ public class MouseParticle : MonoBehaviour
         {
             //particle.Stop();
             //print("드래그X");
-            particle.loop = false;
+            //particle.loop = false;
         }
     }
 }

@@ -430,7 +430,7 @@ AnimationClip:
   - time: 3.9333334
     functionName: DestoryObj
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 6c29f3440a75f9d4785769d18bcb8ef7, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 0448a546101751543b069f9cbd823284, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

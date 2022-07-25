@@ -164,8 +164,6 @@ public class DiscriminantObject : MonoBehaviour
     }
     #endregion
 
-    public void DestoryObj() => Destroy(gameObject);
-
     /// <summary>
     /// 스테이지 4 : 2개의 문제 완료시 다음 문제로 넘어가기
     /// </summary>

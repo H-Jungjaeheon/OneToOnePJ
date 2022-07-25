@@ -107,6 +107,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
         Answering = true;
         StartCoroutine(DragEnd());
     }
+
     private IEnumerator DragEnd()
     {
         yield return new WaitForSeconds(0.03f);
@@ -117,6 +118,8 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
         Answering = false;
         IsReturning = false;
     }
+
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag(ColliderName) && collision.gameObject.GetComponent<DiscriminantObject>().objIndex == ObjIndex && IsDraging == false && isCorrect == false)

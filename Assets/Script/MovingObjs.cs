@@ -138,6 +138,8 @@ public class MovingObjs : MonoBehaviour
         }
     }
 
+    public void DestoryObj() => Destroy(gameObject);
+
     private IEnumerator CookieAnim()
     {
         Vector3 targetTransform = transform.position + new Vector3(0, 2.2f, 0);
