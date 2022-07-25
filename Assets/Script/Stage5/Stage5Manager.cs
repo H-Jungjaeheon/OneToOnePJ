@@ -36,6 +36,9 @@ public class Stage5Manager : Stage1Manager
     [SerializeField] private float jarCompletedAnimSpeed;
     private RectTransform rectTransform;
 
+    private delegate void testdelegate();
+    testdelegate Testdelegate;
+
     private void Awake()
     {
         if (instance == null)
@@ -44,6 +47,7 @@ public class Stage5Manager : Stage1Manager
     }
     private void FixedUpdate()
     {
+        Testdelegate =  () => Debug.Log("fuck");
         IsStageClear();
         StartPanelAnims();
     }

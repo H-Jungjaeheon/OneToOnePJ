@@ -33,8 +33,9 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     [SerializeField] private Vector3 compleatRotation;
 
     private bool Answering, IsLeftRotation, IsReturning; //정답 판별중, 회전 위치, 제자리 돌아가는중 판별
-    //[HideInInspector]
+    [HideInInspector]
     public bool isCorrect; //정답 판별 완료
+    [HideInInspector]
     public bool IsDraging;
     private GameObject GM;
     private Vector3 NowMousePos;
@@ -107,7 +108,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragH
     }
     private IEnumerator DragEnd()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         if(isCorrect == false)
            transform.position = defaultposition;
         IsWrong = false;
